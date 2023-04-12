@@ -3,13 +3,7 @@ using Authentication.Core.Models;
 using Authentication.Core.MongoDb.Repository;
 using Authentication.Core.Options;
 using Authentication.Services.Users.Request;
-using Authentication.Services.Users.Response;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Authentication.Services.Users
 {

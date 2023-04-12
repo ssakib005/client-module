@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxFunctionalLocationComponent } from './functional-location.component';
 import { FunctionalLocationListComponent } from './functional-location-list/functional-location-list.component';
-import { routes } from '@nebular/auth';
 import { FunctionalLocationCreateComponent } from './functional-location-create/functional-location-create.component';
+import { UploadImagesComponent } from '../../components/image_upload/upload-images.component';
 
 
 const froutes: Routes = [{
@@ -11,20 +11,20 @@ const froutes: Routes = [{
   component: NgxFunctionalLocationComponent,
   children: [
     {
-      path: 'functional-lication-list',
+      path: 'list',
       component: FunctionalLocationListComponent,
     },
     {
-      path: 'functional-lication-create',
+      path: 'create',
       component: FunctionalLocationCreateComponent,
     },
     {
-      path: 'functional-lication-edit/:id',
+      path: 'edit/:id',
       component: FunctionalLocationCreateComponent,
     },
     {
       path: '',
-      redirectTo: 'functional-lication-list',
+      redirectTo: 'list',
       pathMatch: 'full',
     }
   ],
@@ -39,5 +39,6 @@ export class NgxFunctionalLocationRoutingModule { }
 export const functionalRoutedComponents = [
   NgxFunctionalLocationComponent,
   FunctionalLocationListComponent,
-  FunctionalLocationCreateComponent
+  FunctionalLocationCreateComponent,
+  UploadImagesComponent
 ];

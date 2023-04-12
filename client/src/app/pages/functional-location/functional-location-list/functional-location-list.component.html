@@ -1,43 +1,87 @@
 <nb-card>
-  <nb-card-header style="display: flex; justify-content: space-between;">
+  <nb-card-header style="display: flex; justify-content: space-between">
     Functional Location List
-    <button type="button" nbButton status="primary" [routerLink]="['/pages/users/user-create']">Create Functional Location</button>
+    <button
+      type="button"
+      nbButton
+      status="primary"
+      [routerLink]="['/pages/functional-location/create']"
+    >
+      Create Functional Location
+    </button>
   </nb-card-header>
 
   <nb-card-body>
     <table class="table">
       <thead>
-          <tr>
-              <th style="width: 30%">First Name</th>
-              <th style="width: 30%">Last Name</th>
-              <th style="width: 30%">Username</th>
-              <th style="width: 30%">Email</th>
-              <th style="min-width: 200px; align-self: stretch; max-width: 250px;">Action</th>
-          </tr>
+        <tr>
+          <th style="width: 30%; text-align: center">Image</th>
+          <th style="width: 30%; text-align: center">Name</th>
+          <th style="width: 30%; text-align: center">Description</th>
+          <th
+            style="
+              min-width: 200px;
+              align-self: stretch;
+              max-width: 250px;
+              text-align: center;
+            "
+          >
+            Action
+          </th>
+        </tr>
       </thead>
       <tbody>
-          <!-- <tr *ngFor="let user of userList">
-              <td>{{user.firstName}}</td>
-              <td>{{user.lastName}}</td>
-              <td>{{user.username}}</td>
-              <td>{{user.email}}</td>
-              <td style="white-space: nowrap; min-width: 200px; align-self: stretch; max-width: 250px;">
-                  <a routerLink='/pages/users/user-edit/{{user.id}}' class="btn btn-sm btn-primary mr-1">Edit</a>
-                  <button (click)="deleteUser(user.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="user.isDeleting">
-                      <span *ngIf="user.isDeleting" class="spinner-border spinner-border-sm"></span>
-                      <span *ngIf="!user.isDeleting">Delete</span>
-                  </button>
-              </td>
-          </tr>
-          <tr *ngIf="!userList">
-              <td colspan="4" class="text-center">
-                  <span class="spinner-border spinner-border-lg align-center"></span>
-              </td>
-          </tr> -->
+        <tr *ngFor="let location of list">
+          <td style="text-align: center">
+            <img
+              id="blah"
+              [src]="location.image || 'http://placehold.it/180'"
+              height="80"
+              width="80"
+              style="margin-right: 17px"
+              alt="your image"
+            />
+          </td>
+          <td style=" text-align: center;">{{ location.name }}</td>
+          <td style=" text-align: center;">{{ location.description | slice:0:100 }}...</td>
+          <td
+            style="
+              white-space: nowrap;
+              min-width: 200px;
+              align-self: stretch;
+              max-width: 250px;
+              text-align: center;
+            "
+          >
+            <a
+              routerLink="/pages/functional-location/edit/{{ location.id }}"
+              class="btn btn-sm btn-primary mr-1"
+              >Edit</a
+            >
+            <button
+              (click)="deleteUser(location.id)"
+              class="btn btn-sm btn-danger btn-delete-user"
+              [disabled]="location.isDeleting"
+            >
+              <span
+                *ngIf="location.isDeleting"
+                class="spinner-border spinner-border-sm"
+              ></span>
+              <span *ngIf="!location.isDeleting">Delete</span>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="!list">
+          <td colspan="4" class="text-center">
+            <span class="spinner-border spinner-border-lg align-center"></span>
+          </td>
+        </tr>
+        <tr *ngIf="list.length === 0">
+          <td colspan="4" class="text-center">
+            <span class="">No Data Found</span>
+          </td>
+        </tr>
       </tbody>
-  </table>
-
-
+    </table>
   </nb-card-body>
 </nb-card>
-

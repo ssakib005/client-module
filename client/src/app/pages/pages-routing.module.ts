@@ -5,6 +5,7 @@ import { PagesComponent } from './pages.component';
 import { HomeComponent } from './home/home.component';
 import { SiteComponent } from './site/site.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { LogoutComponent } from './logout.component';
 
 const routes: Routes = [{
   path: '',
@@ -25,6 +26,10 @@ const routes: Routes = [{
     {
       path: 'functional-location',
       loadChildren: () => import('./functional-location/functional-location.module').then((m) => m.NgxFunctionalLocationModule),
+    },
+    {
+      path: 'logout',
+      component: LogoutComponent,
     },
     {
       path: '',

@@ -22,4 +22,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'globe-2-outline',
     link: '/pages/functional-location'
   },
+  {
+    title: 'Logout',
+    icon: 'log-out-outline',
+    link: '/pages/logout'
+  },
 ];

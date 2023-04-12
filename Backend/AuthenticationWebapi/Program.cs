@@ -2,10 +2,10 @@ using Authentication.Core.Interfaces;
 using Authentication.Core.MongoDb.Context;
 using Authentication.Core.MongoDb.Repository;
 using Authentication.Core.Options;
+using Authentication.Services.FunctionalLocations;
 using Authentication.Services.Users;
 using AuthenticationWebapi.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -18,6 +18,7 @@ builder.Services.AddScoped(typeof(IMongoDbRepository<>), typeof(MongoDbRepositor
 
 // Add services to the container.
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IFunctionalLocationService, FunctionalLocationService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<ISessionService, SessionService>();

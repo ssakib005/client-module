@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbButtonModule, NbCardModule, NbIconModule, NbInputModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbIconModule, NbInputModule, NbUserModule } from '@nebular/theme';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../../@theme/theme.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
@@ -11,10 +11,11 @@ import { NgxFunctionalLocationRoutingModule, functionalRoutedComponents } from '
     NbIconModule,
     NbInputModule,
     NbButtonModule,
+    NbUserModule,
     ThemeModule,
-    NgxFunctionalLocationRoutingModule,
     Ng2SmartTableModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxFunctionalLocationRoutingModule
   ],
   declarations: [
     ...functionalRoutedComponents
