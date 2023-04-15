@@ -39,6 +39,5 @@ export class NgxFunctionalLocationRoutingModule { }
 export const functionalRoutedComponents = [
   NgxFunctionalLocationComponent,
   FunctionalLocationListComponent,
-  FunctionalLocationCreateComponent,
-  UploadImagesComponent
+  FunctionalLocationCreateComponent
 ];

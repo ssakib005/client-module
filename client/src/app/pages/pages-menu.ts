@@ -12,15 +12,20 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'people-outline',
     link: '/pages/users',
   },
-  {
-    title: 'Sites',
-    icon: 'globe-2-outline',
-    link: '/pages/sites'
-  },
+  // {
+  //   title: 'Sites',
+  //   icon: 'globe-2-outline',
+  //   link: '/pages/sites'
+  // },
   {
     title: 'Functional Location',
     icon: 'globe-2-outline',
     link: '/pages/functional-location'
+  },
+  {
+    title: 'Site Information',
+    icon: 'globe-2-outline',
+    link: '/pages/site-information'
   },
   {
     title: 'Logout',

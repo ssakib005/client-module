@@ -1,0 +1,89 @@
+<nb-card>
+  <nb-card-header style="display: flex; justify-content: space-between">
+    Site Information List
+    <button
+      type="button"
+      nbButton
+      status="primary"
+      [routerLink]="['/pages/site-information/create']"
+    >
+      Create Site Information
+    </button>
+  </nb-card-header>
+
+  <nb-card-body>
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width: 20%; text-align: center">Image</th>
+          <th style="width: 20%; text-align: center">Name</th>
+          <th style="width: 30%; text-align: center">Description</th>
+          <th style="width: 30%; text-align: center">Location Name</th>
+          <th
+            style="
+              min-width: 200px;
+              align-self: stretch;
+              max-width: 250px;
+              text-align: center;
+            "
+          >
+            Action
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let siteinformation of list">
+          <td style="text-align: center">
+            <img
+              id="blah"
+              [src]="siteinformation.image || 'http://placehold.it/180'"
+              height="80"
+              width="80"
+              style="margin-right: 17px"
+              alt="your image"
+            />
+          </td>
+          <td style=" text-align: center;">{{ siteinformation.name }}</td>
+          <td style=" text-align: center;">{{ siteinformation.description | slice:0:100 }}...</td>
+          <td style=" text-align: center;">{{ siteinformation.functionalLocationName }}</td>
+          <td
+            style="
+              white-space: nowrap;
+              min-width: 200px;
+              align-self: stretch;
+              max-width: 250px;
+              text-align: center;
+            "
+          >
+            <a
+              routerLink="/pages/site-information/edit/{{ siteinformation.id }}"
+              class="btn btn-sm btn-primary mr-1"
+              >Edit</a
+            >
+            <button
+              (click)="deleteSiteInformation(siteinformation.id)"
+              class="btn btn-sm btn-danger btn-delete-user"
+              [disabled]="siteinformation.isDeleting"
+            >
+              <span
+                *ngIf="siteinformation.isDeleting"
+                class="spinner-border spinner-border-sm"
+              ></span>
+              <span *ngIf="!siteinformation.isDeleting">Delete</span>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="!list">
+          <td colspan="4" class="text-center">
+            <span class="spinner-border spinner-border-lg align-center"></span>
+          </td>
+        </tr>
+        <tr *ngIf="list.length === 0">
+          <td colspan="4" class="text-center">
+            <span class="">No Data Found</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>

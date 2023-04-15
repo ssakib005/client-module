@@ -28,6 +28,10 @@ const routes: Routes = [{
       loadChildren: () => import('./functional-location/functional-location.module').then((m) => m.NgxFunctionalLocationModule),
     },
     {
+      path: 'site-information',
+      loadChildren: () => import('./site-information/site-information.module').then((m) => m.NgxSiteInformationModule),
+    },
+    {
       path: 'logout',
       component: LogoutComponent,
     },

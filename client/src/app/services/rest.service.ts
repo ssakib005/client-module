@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { User } from '../model/user.model';
 import { FunctionalLocation } from '../model/functional.model';
+import {SiteInformation} from '../model/siteInformation.model'
 
 @Injectable({
   providedIn: 'root',
@@ -70,4 +71,34 @@ export class RestService {
       .pipe(map((response: any) => response as boolean));
   }
 
+  // Site Information
+  createSiteInformation(payload: any): Observable<any> {
+    const url = environment.apiUrl + '/SiteInformation/Create';
+    return this.http.post(url, payload).pipe(map((response: any) => response));
+  }
+
+
+  updateSiteInformation(payload: any): Observable<any> {
+    const url = environment.apiUrl + '/SiteInformation/Update';
+    return this.http.put(url, payload).pipe(map((response: any) => response));
+  }
+
+
+  fetchSiteInformationList(): Observable<any> {
+    const url = environment.apiUrl + '/SiteInformation/GetAll';
+    return this.http.get(url).pipe(map((response: any) => response));
+  }
+
+  fetchSiteInformationById(id: string): Observable<SiteInformation> {
+    const url = environment.apiUrl + '/SiteInformation/GetById/' + id;
+    return this.http.get(url).pipe(
+      map((response: any) => response.data as SiteInformation));
+  }
+
+  deleteSiteInformationById(id: string): Observable<boolean> {
+    const url = environment.apiUrl + '/SiteInformation/Delete/' + id;
+    return this.http
+      .delete(url)
+      .pipe(map((response: any) => response as boolean));
+  }
 }
