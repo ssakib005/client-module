@@ -1,0 +1,87 @@
+<nb-card>
+  <nb-card-header style="display: flex; justify-content: space-between">
+    Mine Information List
+    <button
+      type="button"
+      nbButton
+      status="primary"
+      [routerLink]="['/pages/mine-information/create']"
+    >
+      Create Mine Information
+    </button>
+  </nb-card-header>
+
+  <nb-card-body>
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width: 20%; text-align: center">Image</th>
+          <th style="width: 20%; text-align: center">Name</th>
+          <th style="width: 30%; text-align: center">Description</th>
+          <th
+            style="
+              min-width: 200px;
+              align-self: stretch;
+              max-width: 250px;
+              text-align: center;
+            "
+          >
+            Action
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let mineInformation of list">
+          <td style="text-align: center">
+            <img
+              id="blah"
+              [src]="mineInformation.image || 'http://placehold.it/180'"
+              height="80"
+              width="80"
+              style="margin-right: 17px"
+              alt="your image"
+            />
+          </td>
+          <td style=" text-align: center;">{{ mineInformation.name }}</td>
+          <td style=" text-align: center;">{{ mineInformation.description | slice:0:100 }}...</td>
+          <td
+            style="
+              white-space: nowrap;
+              min-width: 200px;
+              align-self: stretch;
+              max-width: 250px;
+              text-align: center;
+            "
+          >
+            <a
+              routerLink="/pages/mine-information/edit/{{ mineInformation.id }}"
+              class="btn btn-sm btn-primary mr-1"
+              >Edit</a
+            >
+            <button
+              (click)="deleteMineInformation(mineInformation.id)"
+              class="btn btn-sm btn-danger btn-delete-user"
+              [disabled]="mineInformation.isDeleting"
+            >
+              <span
+                *ngIf="mineInformation.isDeleting"
+                class="spinner-border spinner-border-sm"
+              ></span>
+              <span *ngIf="!mineInformation.isDeleting">Delete</span>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="!list">
+          <td colspan="4" class="text-center">
+            <span class="spinner-border spinner-border-lg align-center"></span>
+          </td>
+        </tr>
+        <tr *ngIf="list.length === 0">
+          <td colspan="4" class="text-center">
+            <span class="">No Data Found</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>

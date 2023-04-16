@@ -4,6 +4,8 @@ using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using static System.Net.Mime.MediaTypeNames;
 using Authentication.Services.SiteInformations;
 using Authentication.Services.SiteInformations.Request;
+using Authentication.Services.MineInformations;
+using Authentication.Services.MineInformations.Request;
 
 namespace AuthenticationWebapi.Controllers
 {
@@ -11,11 +13,11 @@ namespace AuthenticationWebapi.Controllers
     [ApiController]
     public class MineInformationController : ControllerBase
     {
-        private readonly ISiteInformationService _service;
+        private readonly IMineInformationService _service;
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _hostingEnv;
 
-        public MineInformationController(ISiteInformationService service, IWebHostEnvironment env, IConfiguration configuration)
+        public MineInformationController(IMineInformationService service, IWebHostEnvironment env, IConfiguration configuration)
         {
             _service = service;
             _hostingEnv = env;
@@ -23,7 +25,7 @@ namespace AuthenticationWebapi.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ActionResult<User>> Create([FromBody] SiteInformationsDTO request)
+        public async Task<ActionResult<MineInformation>> Create([FromBody] MineInformationsDTO request)
         {
             var mineInformation = await _service.CreateAsync(request);
             if(mineInformation.Code == 200)
@@ -34,7 +36,7 @@ namespace AuthenticationWebapi.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<ActionResult<User>> Update([FromBody] SiteInformationsDTO request)
+        public async Task<ActionResult<MineInformation>> Update([FromBody] MineInformationsDTO request)
         {
             var mineInformation = await _service.UpdateAsync(request);
             if (mineInformation.Code == 200)
@@ -45,21 +47,21 @@ namespace AuthenticationWebapi.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<User>> GetAll()
+        public async Task<ActionResult<MineInformation>> GetAll()
         {
-            var siteInformationList = await _service.ListAsync();
-            return Ok(siteInformationList);
+            var mineInformationList = await _service.ListAsync();
+            return Ok(mineInformationList);
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<User>> GetById(string id)
+        public async Task<ActionResult<MineInformation>> GetById(string id)
         {
             var mineInformation = await _service.GetByIdAsync(id);
             return Ok(mineInformation);
         }
 
         [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<User>> DeleteById(string id)
+        public async Task<ActionResult<MineInformation>> DeleteById(string id)
         {
             var mineInformation = await _service.DeleteByIdAsync(id);
             return Ok(mineInformation);

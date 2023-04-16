@@ -5,7 +5,9 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { User } from '../model/user.model';
 import { FunctionalLocation } from '../model/functional.model';
-import {SiteInformation} from '../model/siteInformation.model'
+import {SiteInformation} from '../model/siteInformation.model';
+import { MineInformation } from '../model/mineInformation.model';
+
 
 @Injectable({
   providedIn: 'root',
@@ -97,6 +99,38 @@ export class RestService {
 
   deleteSiteInformationById(id: string): Observable<boolean> {
     const url = environment.apiUrl + '/SiteInformation/Delete/' + id;
+    return this.http
+      .delete(url)
+      .pipe(map((response: any) => response as boolean));
+  }
+
+
+  // Mine Information
+  createMineInformation(payload: any): Observable<any> {
+    const url = environment.apiUrl + '/MineInformation/Create';
+    return this.http.post(url, payload).pipe(map((response: any) => response));
+  }
+
+
+  updateMineInformation(payload: any): Observable<any> {
+    const url = environment.apiUrl + '/MineInformation/Update';
+    return this.http.put(url, payload).pipe(map((response: any) => response));
+  }
+
+
+  fetchMineInformationList(): Observable<any> {
+    const url = environment.apiUrl + '/MineInformation/GetAll';
+    return this.http.get(url).pipe(map((response: any) => response));
+  }
+
+  fetchMineInformationById(id: string): Observable<MineInformation> {
+    const url = environment.apiUrl + '/MineInformation/GetById/' + id;
+    return this.http.get(url).pipe(
+      map((response: any) => response.data as MineInformation));
+  }
+
+  deleteMineInformationById(id: string): Observable<boolean> {
+    const url = environment.apiUrl + '/MineInformation/Delete/' + id;
     return this.http
       .delete(url)
       .pipe(map((response: any) => response as boolean));

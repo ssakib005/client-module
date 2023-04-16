@@ -23,6 +23,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/functional-location'
   },
   {
+    title: 'Mine Information',
+    icon: 'globe-2-outline',
+    link: '/pages/mine-information'
+  },
+  {
     title: 'Site Information',
     icon: 'globe-2-outline',
     link: '/pages/site-information'

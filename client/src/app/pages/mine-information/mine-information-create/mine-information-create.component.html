@@ -1,0 +1,238 @@
+<nb-card>
+  <nb-card-header style="display: flex; justify-content: space-between">
+    <label class="label col-form-label">Create Mine Information</label>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="mineInformation" (ngSubmit)="onSubmit()">
+      <div
+        class="col-lg-4 col-md-6 col-sm-12 col-xs-12 offset-lg-4 offset-md-3"
+      >
+        <div class="form-group row">
+          <div class="col-9 offset-3">
+            <div class="row float-right">
+              <input hidden type="file" #uploader (change)="readURL($event)" />
+              <img
+                id="blah"
+                [src]="imageSrc || 'http://placehold.it/180'"
+                height="180"
+                width="180"
+                style="margin-right: 17px"
+                alt="your image"
+                (click)="uploader.click()"
+              />
+            </div>
+          </div>
+          <div class="col-9 offset-3">
+            <div class="row float-right">
+              <button
+                nbButton
+                type="button"
+                status="primary"
+                style="margin-right: 17px; width: 180px"
+                (click)="uploader.click()"
+              >
+                Upload
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="label col-3 col-form-label" for="name">Name:</label>
+          <div class="col-9">
+            <input
+              nbInput
+              id="name"
+              type="text"
+              fullWidth
+              placeholder="Name"
+              autocomplete="off"
+              [status]="
+                mineInformation.controls.name.dirty
+                  ? mineInformation.controls.name.invalid
+                    ? 'danger'
+                    : 'success'
+                  : 'basic'
+              "
+              [attr.aria-invalid]="
+                mineInformation.controls.name.invalid && mineInformation.controls.name.touched
+                  ? true
+                  : null
+              "
+              formControlName="name"
+            />
+            <ng-container
+              *ngIf="
+                mineInformation.controls.name.invalid && mineInformation.controls.name.touched
+              "
+            >
+              <p
+                class="caption status-danger"
+                *ngIf="mineInformation.controls.name.errors?.required"
+              >
+                Name is required
+              </p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="label col-3 col-form-label" for="description"
+            >Description:</label
+          >
+          <div class="col-9">
+            <textarea
+              nbInput
+              id="description"
+              type="text"
+              fullWidth
+              autocomplete="off"
+              rows="8"
+              placeholder="Description"
+              [status]="
+                mineInformation.controls.description.dirty
+                  ? mineInformation.controls.description.invalid
+                    ? 'danger'
+                    : 'success'
+                  : 'basic'
+              "
+              [attr.aria-invalid]="
+                mineInformation.controls.description.invalid && mineInformation.controls.description.touched
+                  ? true
+                  : null
+              "
+              formControlName="description"
+            ></textarea>
+
+            <ng-container
+              *ngIf="
+                mineInformation.controls.description.invalid &&
+                mineInformation.controls.description.touched
+              "
+            >
+              <p
+                class="caption status-danger"
+                *ngIf="mineInformation.controls.description.errors?.required"
+              >
+                Description is required
+              </p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="label col-3 col-form-label" for="siteInformationId"
+            >Site Information:</label
+          >
+          <div class="col-9">
+            <nb-select
+              nbInput
+              id="siteInformationId"
+              fullWidth
+              autocomplete="off"
+              placeholder="Site Information"
+              [status]="
+                mineInformation.controls.siteInformationId.dirty
+                  ? mineInformation.controls.siteInformationId.invalid
+                    ? 'danger'
+                    : 'success'
+                  : 'basic'
+              "
+              [attr.aria-invalid]="
+                mineInformation.controls.siteInformationId.invalid && mineInformation.controls.siteInformationId.touched
+                  ? true
+                  : null
+              "
+              formControlName="siteInformationId"
+              (selectedChange)="addMineInformation()"
+            >
+              <nb-option
+                *ngFor="let option of list"
+                 value="{{ option.id }}"
+              >
+                {{ option.name }}
+              </nb-option>
+          </nb-select>
+            <ng-container
+              *ngIf="
+                mineInformation.controls.siteInformationId.invalid &&
+                mineInformation.controls.siteInformationId.touched
+              "
+            >
+              <p
+                class="caption status-danger"
+                *ngIf="mineInformation.controls.siteInformationId.errors?.required"
+              >
+              Mine Information is required
+              </p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="label col-3 col-form-label" for="siteInformationId"
+            >Site List:</label
+          >
+          <div class="col-9">
+            <div class="table-responsive" style="min-height: 100px;">
+              <table class="table table-bordered table-striped table-nowrap mb-0">
+                <thead>
+                  <tr class="tableheader">
+                    <th scope="col">Site Name</th>
+                    <th scope="col">{{'Action'}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of selectedList">
+                    <td>{{item.name}}</td>
+                    <td style="width: 100px;">
+                      <button
+                       type="button"
+                       class="btn btn-danger"
+                      (click)="deleteSiteInformation(item)">
+                      Delete
+                      </button>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-9 offset-3">
+            <div class="row float-right">
+              <button
+                type="button"
+                nbButton
+                status="danger"
+                [routerLink]="['/pages/mine-information/list']"
+              >
+                Cancel
+              </button>
+
+              <input
+                *ngIf="isCreate"
+                type="submit"
+                style="margin-right: 15px; margin-left: 8px"
+                [disabled]="!mineInformation.valid"
+                size="small"
+                class="btn btn-primary"
+                value="Save"
+              />
+
+              <input
+                *ngIf="!isCreate"
+                type="submit"
+                style="margin-right: 15px; margin-left: 8px"
+                [disabled]="!mineInformation.valid"
+                size="small"
+                class="btn btn-primary"
+                value="Update"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- <p>Form Status: {{ imageSrc }}</p> -->
+  </nb-card-body>
+</nb-card>
