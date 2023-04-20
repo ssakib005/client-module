@@ -136,8 +136,6 @@
                     <tr *ngFor="let item of list">
                       <td><input type="checkbox" formControlName="functionalLocationIds" value="{{item.id}}" [(ngModel)]="item.isChecked"></td>
                       <td>{{ item.name }}</td>
-                      <td>{{ item.isChecked }}</td>
-                      <td><p>{{item | json}}</p></td>
                     </tr>
                   </tbody>
                 </table>

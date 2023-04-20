@@ -61,6 +61,9 @@ export class UserCreateComponent implements OnInit {
       this.rest.createUser(data).subscribe(
         () => {
           this.toastr.success('User Created Successfully', 'User');
+          setTimeout(() => {
+            this.router.navigate(['/pages/users/user-list']);
+          }, 2000);
         },
         (error) => {
           this.toastr.error(error.error, 'User');
@@ -70,6 +73,9 @@ export class UserCreateComponent implements OnInit {
       this.rest.updateUser(data).subscribe(
         () => {
           this.toastr.success('User Updated Successfully', 'User');
+          setTimeout(() => {
+            this.router.navigate(['/pages/users/user-list']);
+          }, 2000);
         },
         (error) => {
           this.toastr.error(error.error, 'User');
