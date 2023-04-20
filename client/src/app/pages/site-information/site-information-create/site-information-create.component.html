@@ -118,49 +118,32 @@
           </div>
         </div>
         <div class="form-group row">
-          <label class="label col-3 col-form-label" for="functionalLocationId"
-            >Functional Location:</label
+          <label class="label col-3 col-form-label" for="functionalLocationIds"
+            ></label
           >
           <div class="col-9">
-            <nb-select
-              id="functionalLocationId"
-              fullWidth
-              autocomplete="off"
-              placeholder="Functioal Location"
-              [status]="
-                siteInformation.controls.functionalLocationId.dirty
-                  ? siteInformation.controls.functionalLocationId.invalid
-                    ? 'danger'
-                    : 'success'
-                  : 'basic'
-              "
-              [attr.aria-invalid]="
-                siteInformation.controls.functionalLocationId.invalid && siteInformation.controls.functionalLocationId.touched
-                  ? true
-                  : null
-              "
-              formControlName="functionalLocationId"
-            >
-              <nb-option
-                *ngFor="let option of list"
-                 value="{{ option.id }}"
-              >
-                {{ option.name }}
-              </nb-option>
-          </nb-select>
-            <ng-container
-              *ngIf="
-                siteInformation.controls.functionalLocationId.invalid &&
-                siteInformation.controls.functionalLocationId.touched
-              "
-            >
-              <p
-                class="caption status-danger"
-                *ngIf="siteInformation.controls.functionalLocationId.errors?.required"
-              >
-              Functioal Location is required
-              </p>
-            </ng-container>
+            <div *ngIf="list; else elseBlock">
+              <div class="table-responsive" style="min-height: 100px;">
+                <table class="datatable table table-bordered table-striped table-nowrap mb-0">
+                  <thead>
+                    <tr>
+                      <th><input type="checkbox" [checked]="isAllCheckBoxChecked()" (change)="checkAllCheckBox($event)"></th>
+                      <th>Functional Location</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of list">
+                      <td><input type="checkbox" formControlName="functionalLocationIds" value="{{item.id}}" [(ngModel)]="item.isChecked"></td>
+                      <td>{{ item.name }}</td>
+                      <td>{{ item.isChecked }}</td>
+                      <td><p>{{item | json}}</p></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <ng-template #elseBlock>No record found</ng-template>
           </div>
         </div>
         <div class="form-group row">

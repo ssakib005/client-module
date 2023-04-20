@@ -21,7 +21,8 @@ export class SiteInformationCreateComponent implements OnInit {
   siteInformation!: FormGroup;
   id: string = undefined;
   isCreate: boolean = true;
-  list: FunctionalLocation[];
+  list: FunctionalLocation[]= [];
+  parentSelector: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -29,20 +30,35 @@ export class SiteInformationCreateComponent implements OnInit {
     private router: Router,
     private rest: RestService,
     private toastr: ToastrService
-  ) {
+    ) 
+    {
     this.id = this.route.snapshot.params['id'];
+    this.fetchFunctionalLocationList();
 
     if (this.id !== undefined) {
+      debugger;
       this.isCreate = false;
       rest.fetchSiteInformationById(this.id).subscribe((response) => {
-        this.imageSrc = response.image
+        console.table(this.list);
+        this.imageSrc = response.image;
         this.siteInformation.setValue({
           id: response.id,
           name: response.name,
           description: response.description,
           image: response.image,
-          functionalLocationId: response.functionalLocationId
+          functionalLocationIds: ''
         });
+
+        this.list.forEach((res) => {
+          const listObject = response.functionalLocationList.find((mainObject) => mainObject.id === res.id);
+          if (listObject !== undefined) {
+            res.isChecked = true;
+          }
+          else
+          res.isChecked=false;
+        });
+        
+        console.table(this.list);
       });
     }
   }
@@ -58,12 +74,11 @@ export class SiteInformationCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchFunctionalLocationList();
     this.siteInformation = this.fb.group({
       id: '',
       name: ['', Validators.required],
       description: ['', Validators.required],
-      functionalLocationId: ['',Validators.required],
+      functionalLocationIds: '',
       image: '',
     });
   }
@@ -76,12 +91,17 @@ export class SiteInformationCreateComponent implements OnInit {
     if (this.siteInformation.invalid) {
       return;
     }
-
     var data = this.siteInformation.value;
-
     if (this.id === undefined) {
       data.id = '';
       data.image = this.imageSrc;
+      data.functionalLocationIds = this.list.filter(function(obj) {
+        return obj.isChecked;
+      }).map(a => a.id);
+      if(data.functionalLocationIds.length < 1){
+        this.toastr.error("Functional Location is required", 'Functional Location');
+        return;
+      }
       this.rest.createSiteInformation(data).subscribe(
         () => {
           this.toastr.success(
@@ -98,6 +118,13 @@ export class SiteInformationCreateComponent implements OnInit {
       );
     } else {
       data.image = this.imageSrc;
+      data.functionalLocationIds = this.list.filter(function(obj) {
+        return obj.isChecked;
+      }).map(a => a.id);
+      if(data.functionalLocationIds.length < 1){
+        this.toastr.error("Functional Location is required", 'Functional Location');
+        return;
+      }
       this.rest.updateSiteInformation(data).subscribe(
         () => {
           this.toastr.success('Site Information Updated Successfully', 'Site Information');
@@ -111,4 +138,12 @@ export class SiteInformationCreateComponent implements OnInit {
       );
     }
   }
+
+    checkAllCheckBox(ev: any) {
+      this.list.forEach(x => x.isChecked = ev.target.checked)
+    }
+  
+    isAllCheckBoxChecked() {
+      return this.list.every(p => p.isChecked);
+    }
 }

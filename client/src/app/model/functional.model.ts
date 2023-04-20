@@ -6,4 +6,5 @@ export interface FunctionalLocation {
   createdAt: string
   updatedAt: string
   isDeleted: boolean
+  isChecked?: boolean
 }

@@ -12,6 +12,6 @@ namespace Authentication.Services.SiteInformations.Request
         public string Name { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
-        public string FunctionalLocationId { get; set; }
+        public List<string> FunctionalLocationIds { get; set; }
     }
 }

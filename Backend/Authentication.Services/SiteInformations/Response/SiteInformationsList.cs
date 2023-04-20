@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Authentication.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,6 @@ namespace Authentication.Services.SiteInformations.Response
         public string Description { get; set; }
         public string Image { get; set; }
         public string FunctionalLocationId { get; set; }
-        public string FunctionalLocationName { get; set; }
+        public List<FunctionalLocation> FunctionalLocationList { get; set; }
     }
 }

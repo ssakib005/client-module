@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { NbAutocompleteModule, NbButtonModule, NbCardModule, NbIconModule, NbInputModule, NbSelectModule, NbUserModule } from '@nebular/theme';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../../@theme/theme.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NgxSiteInformationRoutingModule, siteInformationRoutedComponents } from './site-information-routing.module';
+import { HttpClientModule }    from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -17,7 +18,9 @@ import { NgxSiteInformationRoutingModule, siteInformationRoutedComponents } from
     ReactiveFormsModule,
     NgxSiteInformationRoutingModule,
     NbSelectModule,
-    NbAutocompleteModule
+    NbAutocompleteModule,
+    FormsModule,
+    HttpClientModule
   ],
   declarations: [
     ...siteInformationRoutedComponents

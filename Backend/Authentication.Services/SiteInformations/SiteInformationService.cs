@@ -39,7 +39,7 @@ namespace Authentication.Services.SiteInformations
                     IsDeleted = false,
                     UpdatedAt = DateTime.UtcNow,
                     FilePath = request.Image,
-                    FunctionalLocationId = request.FunctionalLocationId
+                    FunctionalLocationIds = request.FunctionalLocationIds
                 };
                 await _siteInformationRepository.InsertAsync(siteInformation);
                 return new SiteInformationsResponse<bool>() { Code = 200, Message = "Site Information Successfully Created" };
@@ -63,7 +63,7 @@ namespace Authentication.Services.SiteInformations
                     IsDeleted = false,
                     UpdatedAt = DateTime.UtcNow,
                     FilePath = request.Image,
-                    FunctionalLocationId = request.FunctionalLocationId
+                    FunctionalLocationIds = request.FunctionalLocationIds
                 };
                 await _siteInformationRepository.UpdateAsync(siteInformation);
                 return new SiteInformationsResponse<bool>() { Code = 200, Message = "Site Information Successfully Updated" };
@@ -93,7 +93,18 @@ namespace Authentication.Services.SiteInformations
         {
             try
             {
+                List<FunctionalLocation> list = new List<FunctionalLocation>();
+
                 var res = await _siteInformationRepository.FindOneAsync(obj => obj.Id == id);
+                if (res.FunctionalLocationIds.Count > 0)
+                {
+                    foreach (var item in res.FunctionalLocationIds)
+                    {
+                        var location = await _functionalLocationRepository.GetByIdAsync(item);
+                        if (location != null)
+                            list.Add(location);
+                    }
+                }
                 return new SiteInformationsResponse<SiteInformationsList>()
                 {
                     Code = 200,
@@ -104,7 +115,7 @@ namespace Authentication.Services.SiteInformations
                         Name = res.Name,
                         Description = res.Description,
                         Image = res.FilePath,
-                        FunctionalLocationId = res.FunctionalLocationId
+                        FunctionalLocationList = list
                     }
                 };
             }
@@ -128,8 +139,7 @@ namespace Authentication.Services.SiteInformations
                     Description = x.Description,
                     Id = x.Id,
                     Name = x.Name,
-                    Image = x.FilePath,
-                    FunctionalLocationName = _functionalLocationRepository.GetById(x.FunctionalLocationId).Name
+                    Image = x.FilePath
                 }).ToList();
                 return new SiteInformationsResponse<List<SiteInformationsList>>() { Code = 200, Message = "Site Information Successfully Created", Data = list };
             }

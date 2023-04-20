@@ -12,7 +12,7 @@ namespace Authentication.Core.Models
         public string Description { get; set; }
         public string FileName { get; set; }
         public string FilePath { get; set; }
-        public string FunctionalLocationId { get; set; }
+        public List<string> FunctionalLocationIds { get; set; }
 
     }
 }

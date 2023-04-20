@@ -2,10 +2,10 @@ export class SiteInformation {
   name: any
   description: any
   image: any
-  functionalLocationId: any
-  FunctionalLocationName: any
+  functionalLocationIds: any[]
   id: string
   createdAt: string
   updatedAt: string
   isDeleted: boolean
+  functionalLocationList: any[]
 }
