@@ -20,7 +20,7 @@ export class FunctionalLocationListComponent implements OnInit {
   fetchUserList(): void {
     this.rest
       .fetchFunctionalList()
-      .subscribe((response) => (this.list = response.data));
+      .subscribe((response) => (this.list = response));
   }
 
   deleteUser(userId): void {

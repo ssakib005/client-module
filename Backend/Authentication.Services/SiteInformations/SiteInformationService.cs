@@ -93,18 +93,10 @@ namespace Authentication.Services.SiteInformations
         {
             try
             {
-                List<FunctionalLocation> list = new List<FunctionalLocation>();
+                List<string> list = new List<string>();
 
                 var res = await _siteInformationRepository.FindOneAsync(obj => obj.Id == id);
-                if (res.FunctionalLocationIds.Count > 0)
-                {
-                    foreach (var item in res.FunctionalLocationIds)
-                    {
-                        var location = await _functionalLocationRepository.GetByIdAsync(item);
-                        if (location != null)
-                            list.Add(location);
-                    }
-                }
+                
                 return new SiteInformationsResponse<SiteInformationsList>()
                 {
                     Code = 200,
@@ -115,7 +107,7 @@ namespace Authentication.Services.SiteInformations
                         Name = res.Name,
                         Description = res.Description,
                         Image = res.FilePath,
-                        FunctionalLocationList = list
+                        FunctionalLocationList = res.FunctionalLocationIds
                     }
                 };
             }

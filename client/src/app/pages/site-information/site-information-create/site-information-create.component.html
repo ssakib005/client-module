@@ -129,12 +129,11 @@
                     <tr>
                       <th><input type="checkbox" [checked]="isAllCheckBoxChecked()" (change)="checkAllCheckBox($event)"></th>
                       <th>Functional Location</th>
-
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let item of list">
-                      <td><input type="checkbox" formControlName="functionalLocationIds" value="{{item.id}}" [(ngModel)]="item.isChecked"></td>
+                      <td><input type="checkbox" value="{{item.id}}" [checked]="item.isChecked" (change)="updateItemChecked(item, $event)"></td>
                       <td>{{ item.name }}</td>
                     </tr>
                   </tbody>

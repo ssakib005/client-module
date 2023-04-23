@@ -56,9 +56,9 @@ export class RestService {
   }
 
 
-  fetchFunctionalList(): Observable<any> {
+  fetchFunctionalList(): Observable<FunctionalLocation[]> {
     const url = environment.apiUrl + '/FunctionalLocation/GetAll';
-    return this.http.get(url).pipe(map((response: any) => response));
+    return this.http.get(url).pipe(map((response: any) => response.data));
   }
 
   fetchFunctionalLocationById(id: string): Observable<FunctionalLocation> {
