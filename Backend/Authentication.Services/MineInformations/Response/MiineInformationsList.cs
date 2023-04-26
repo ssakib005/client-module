@@ -13,7 +13,6 @@ namespace Authentication.Services.MineInformations.Response
         public string Name { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
-        public List<string> SiteInformationIds { get; set; }
-        public List<SiteInformation> SiteInformationList { get; set; }
+        public List<string> SiteInformationList { get; set; }
     }
 }

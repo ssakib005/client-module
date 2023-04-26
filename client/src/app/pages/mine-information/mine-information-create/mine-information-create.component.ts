@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -21,15 +21,17 @@ export class MineInformationCreateComponent implements OnInit {
   mineInformation!: FormGroup;
   id: string = undefined;
   isCreate: boolean = true;
-  list: SiteInformation[];
-  selectedList: SiteInformation[] = [];
+  list: SiteInformation[]=[];
+  selectedIds: String[] = [];
+  parentSelector: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private rest: RestService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cd: ChangeDetectorRef
   ) {
     this.id = this.route.snapshot.params['id'];
 
@@ -37,15 +39,18 @@ export class MineInformationCreateComponent implements OnInit {
       this.isCreate = false;
       rest.fetchMineInformationById(this.id).subscribe((response) => {
         this.imageSrc = response.image;
-        this.selectedList = response.siteInformationList;
         this.mineInformation.setValue({
           id: response.id,
           name: response.name,
           description: response.description,
           image: response.image,
-          siteInformationId : ""
+          siteInformationIds: response.siteInformationList,
         });
+        this.selectedIds = response.siteInformationList;
+        this.fetchSiteInformationList();
       });
+    } else {
+      this.fetchSiteInformationList();
     }
   }
 
@@ -60,35 +65,54 @@ export class MineInformationCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchSiteInformationList();
+    
     this.mineInformation = this.fb.group({
       id: '',
       name: ['', Validators.required],
       description: ['', Validators.required],
-      siteInformationId: [''],
+      siteInformationIds: [''],
       image: '',
     });
   }
-  fetchSiteInformationList(): void {
-    this.rest
-      .fetchSiteInformationList()
-      .subscribe((response) => (this.list = response.data));
+
+  async fetchSiteInformationList(): Promise<void> {
+    const response = await this.rest.fetchSiteInformationList().toPromise();
+
+    const dataList = response;
+    for(let item of dataList){
+      const isContains = this.selectedIds.includes(item.id);
+      console.log(isContains);
+      if (isContains) {
+        item.isChecked = true;
+      } else {
+        item.isChecked = false;
+      }
+      this.list.push(item)
+    }
+    this.cd.detectChanges()
   }
+
   onSubmit() {
     if (this.mineInformation.invalid) {
       return;
     }
-    if(this.selectedList.length < 1){
-      this.toastr.error("Site Informaion is required", 'Mine Information');
-      return;
-    }
-
     var data = this.mineInformation.value;
 
     if (this.id === undefined) {
       data.id = '';
       data.image = this.imageSrc;
-      data.SiteInformationIds = this.selectedList.map(a => a.id);
+      data.siteInformationIds = this.list
+        .filter(function (obj) {
+          return obj.isChecked;
+        })
+        .map((a) => a.id);
+      if (data.siteInformationIds.length < 1) {
+        this.toastr.error(
+          'Site Informaion is required',
+          'Site Informaion'
+        );
+        return;
+      }
       this.rest.createMineInformation(data).subscribe(
         () => {
           this.toastr.success(
@@ -105,7 +129,18 @@ export class MineInformationCreateComponent implements OnInit {
       );
     } else {
       data.image = this.imageSrc;
-      data.SiteInformationIds = this.selectedList.map(a => a.id);
+      data.siteInformationIds = this.list
+        .filter(function (obj) {
+          return obj.isChecked;
+        })
+        .map((a) => a.id);
+      if (data.siteInformationIds.length < 1) {
+        this.toastr.error(
+          'Site Informaion is required',
+          'Site Informaion'
+        );
+        return;
+      }
       this.rest.updateMineInformation(data).subscribe(
         () => {
           this.toastr.success('Mine Information Updated Successfully', 'Mine Information');
@@ -119,31 +154,18 @@ export class MineInformationCreateComponent implements OnInit {
       );
     }
   }
-  addMineInformation() {
-    if (this.mineInformation.get('siteInformationId').value == null) {
-      return;
-    }
-    else {
-      let selectedSiteInformation = this.list?.find(x => x.id === this.mineInformation.get('siteInformationId').value);
-      
-      let existItem = this.selectedList.filter(item => item.id === this.mineInformation.get('siteInformationId').value);
-      if (existItem.length > 0) {
-          return this.toastr.info("Unsuccessful attempt! Selected item already added");
-      }
 
-      let siteInformation = new SiteInformation();
-      siteInformation.id = selectedSiteInformation.id;
-      siteInformation.name = selectedSiteInformation.name;
-
-      this.selectedList.push(siteInformation);
-
-      this.mineInformation.get('siteInformationId').setValue("");
-    }
+  updateItemChecked(item: SiteInformation , e: any){
+    const updatedItem = { ...item, isChecked: e.target.checked };
+    const index = this.list.findIndex(i => i.id === item.id);
+    this.list[index] = updatedItem;
   }
-  deleteSiteInformation(siteInformation: SiteInformation) {
-    const index = this.selectedList.indexOf(siteInformation);
-		if (index >= 0) {
-			this.selectedList.splice(index, 1);
-		}
+
+  checkAllCheckBox(ev: any) {
+    this.list.forEach((x) => (x.isChecked = ev.target.checked));
+  }
+
+  isAllCheckBoxChecked() {
+    return this.list.every((p) => p.isChecked);
   }
 }

@@ -93,8 +93,6 @@ namespace Authentication.Services.SiteInformations
         {
             try
             {
-                List<string> list = new List<string>();
-
                 var res = await _siteInformationRepository.FindOneAsync(obj => obj.Id == id);
                 
                 return new SiteInformationsResponse<SiteInformationsList>()

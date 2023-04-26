@@ -20,7 +20,7 @@ export class SiteInformationListComponent implements OnInit {
   fetchSiteInformationList(): void {
     this.rest
       .fetchSiteInformationList()
-      .subscribe((response) => (this.list = response.data));
+      .subscribe((response) => (this.list = response));
   }
 
   deleteSiteInformation(siteInformationId): void {

@@ -13,7 +13,6 @@ namespace Authentication.Services.SiteInformations.Response
         public string Name { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
-        public string FunctionalLocationId { get; set; }
         public List<string> FunctionalLocationList { get; set; }
     }
 }

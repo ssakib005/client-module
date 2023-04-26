@@ -92,19 +92,8 @@ namespace Authentication.Services.MineInformations
         public async Task<MineInformationsResponse<MineInformationsList>> GetByIdAsync(string id)
         {
             try
-            {
-                List<SiteInformation> siteInformationList = new List<SiteInformation>();
-                
+            {   
                 var res = await _mineInformationRepository.FindOneAsync(obj => obj.Id == id);
-                if (res.SiteInformationIds.Count > 0) 
-                {
-                    foreach (var item in res.SiteInformationIds)
-                    {
-                        var siteInformation = await _siteInformationRepository.GetByIdAsync(item);
-                        if (siteInformation != null)
-                            siteInformationList.Add(siteInformation);
-                    }
-                }
                 return new MineInformationsResponse<MineInformationsList>()
                 {
                     Code = 200,
@@ -115,8 +104,7 @@ namespace Authentication.Services.MineInformations
                         Name = res.Name,
                         Description = res.Description,
                         Image = res.FilePath,
-                        SiteInformationIds = res.SiteInformationIds,
-                        SiteInformationList = siteInformationList
+                        SiteInformationList = res.SiteInformationIds
                     }
                 };
             }
@@ -140,8 +128,7 @@ namespace Authentication.Services.MineInformations
                     Description = x.Description,
                     Id = x.Id,
                     Name = x.Name,
-                    Image = x.FilePath,
-                    SiteInformationIds = x.SiteInformationIds
+                    Image = x.FilePath
                 }).ToList();
                 return new MineInformationsResponse<List<MineInformationsList>>() { Code = 200, Message = "Mine Information Successfully Created", Data = list };
             }

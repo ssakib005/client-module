@@ -117,85 +117,34 @@
             </ng-container>
           </div>
         </div>
+        
         <div class="form-group row">
-          <label class="label col-3 col-form-label" for="siteInformationId"
-            >Site Information:</label
+          <label class="label col-3 col-form-label" for="siteInformationIds"
+            ></label
           >
           <div class="col-9">
-            <nb-select
-              
-              id="siteInformationId"
-              fullWidth
-              autocomplete="off"
-              placeholder="Site Information"
-              [status]="
-                mineInformation.controls.siteInformationId.dirty
-                  ? mineInformation.controls.siteInformationId.invalid
-                    ? 'danger'
-                    : 'success'
-                  : 'basic'
-              "
-              [attr.aria-invalid]="
-                mineInformation.controls.siteInformationId.invalid && mineInformation.controls.siteInformationId.touched
-                  ? true
-                  : null
-              "
-              formControlName="siteInformationId"
-              (selectedChange)="addMineInformation()"
-            >
-              <nb-option
-                *ngFor="let option of list"
-                 value="{{ option.id }}"
-              >
-                {{ option.name }}
-              </nb-option>
-          </nb-select>
-            <ng-container
-              *ngIf="
-                mineInformation.controls.siteInformationId.invalid &&
-                mineInformation.controls.siteInformationId.touched
-              "
-            >
-              <p
-                class="caption status-danger"
-                *ngIf="mineInformation.controls.siteInformationId.errors?.required"
-              >
-              Mine Information is required
-              </p>
-            </ng-container>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="label col-3 col-form-label" for="siteInformationId"
-            >Site List:</label
-          >
-          <div class="col-9">
-            <div class="table-responsive" style="min-height: 100px;">
-              <table class="table table-bordered table-striped table-nowrap mb-0">
-                <thead>
-                  <tr class="tableheader">
-                    <th scope="col">Site Name</th>
-                    <th scope="col">{{'Action'}}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of selectedList">
-                    <td>{{item.name}}</td>
-                    <td style="width: 100px;">
-                      <button
-                       type="button"
-                       class="btn btn-danger"
-                      (click)="deleteSiteInformation(item)">
-                      Delete
-                      </button>
-                    </td>
-                  </tr>
-
-                </tbody>
-              </table>
+            <div *ngIf="list; else elseBlock">
+              <div class="table-responsive" style="min-height: 100px;">
+                <table class="datatable table table-bordered table-striped table-nowrap mb-0">
+                  <thead>
+                    <tr>
+                      <th><input type="checkbox" [checked]="isAllCheckBoxChecked()" (change)="checkAllCheckBox($event)"></th>
+                      <th>Site Information</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of list">
+                      <td><input type="checkbox" value="{{item.id}}" [checked]="item.isChecked" (change)="updateItemChecked(item, $event)"></td>
+                      <td>{{ item.name }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
+            <ng-template #elseBlock>No record found</ng-template>
           </div>
         </div>
+        
         <div class="form-group row">
           <div class="col-9 offset-3">
             <div class="row float-right">

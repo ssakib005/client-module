@@ -8,4 +8,5 @@ export class SiteInformation {
   updatedAt: string
   isDeleted: boolean
   functionalLocationList: any[]
+  isChecked?: boolean
 }

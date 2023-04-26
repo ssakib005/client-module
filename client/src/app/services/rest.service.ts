@@ -85,10 +85,14 @@ export class RestService {
     return this.http.put(url, payload).pipe(map((response: any) => response));
   }
 
-
-  fetchSiteInformationList(): Observable<any> {
+  fetchSiteInformationList(): Observable<SiteInformation[]> {
     const url = environment.apiUrl + '/SiteInformation/GetAll';
-    return this.http.get(url).pipe(map((response: any) => response));
+    return this.http.get(url).pipe(map((response: any) => response.data));
+  }
+
+  fetchFunctionalLocationList(): Observable<FunctionalLocation[]> {
+    const url = environment.apiUrl + '/FunctionalLocation/GetAll';
+    return this.http.get(url).pipe(map((response: any) => response.data));
   }
 
   fetchSiteInformationById(id: string): Observable<SiteInformation> {
