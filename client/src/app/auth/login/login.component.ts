@@ -8,4 +8,16 @@ import { NbLoginComponent } from '@nebular/auth';
 
 export class NgxLoginComponent extends NbLoginComponent {
 
+  showPassword = false;
+
+  getInputType() {
+    if (this.showPassword) {
+      return 'text';
+    }
+    return 'password';
+  }
+
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
+  }
 }

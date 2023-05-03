@@ -48,12 +48,14 @@
       <label class="label" for="input-password">Password:</label>
       <a class="forgot-password caption-2" [routerLink]="['/auth/forgot-password']">Forgot Password?</a>
     </span>
-    <input nbInput
+
+    <nb-form-field>
+      <input nbInput
            fullWidth
            [(ngModel)]="user.password"
            #password="ngModel"
            name="password"
-           type="password"
+           [type]="getInputType()"
            id="input-password"
            placeholder="Password"
            fieldSize="large"
@@ -62,6 +64,16 @@
            [minlength]="getConfigValue('forms.validation.password.minLength')"
            [maxlength]="getConfigValue('forms.validation.password.maxLength')"
            [attr.aria-invalid]="password.invalid && password.touched ? true : null">
+
+
+           <button type="button" nbSuffix nbButton ghost (click)="toggleShowPassword()">
+            <nb-icon [icon]="showPassword ? 'eye-outline' : 'eye-off-2-outline'"
+                     pack="eva"
+                     [attr.aria-label]="showPassword ? 'hide password' : 'show password'">
+            </nb-icon>
+          </button>
+        </nb-form-field>
+
     <ng-container *ngIf="password.invalid && password.touched ">
       <p class="caption status-danger" *ngIf="password.errors?.required">
         Password is required!

@@ -14,6 +14,7 @@ import {
   NbCheckboxModule,
   NbDatepickerModule,
   NbDialogModule,
+  NbFormFieldModule,
   NbIconModule,
   NbInputModule,
   NbLayoutModule,
@@ -67,7 +68,8 @@ import { NgxForgotPasswordComponent } from './auth/forgot-password/forgot-passwo
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
     CoreModule.forRoot(),
-    ThemeModule.forRoot()
+    ThemeModule.forRoot(),
+    NbFormFieldModule
   ],
   providers: [
     AuthGuard,

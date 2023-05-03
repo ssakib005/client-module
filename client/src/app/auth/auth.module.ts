@@ -4,6 +4,7 @@ import { NgxAuthRoutingModule } from './auth-routing.module';
 import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
 import {
   NbCardModule,
+  NbFormFieldModule,
   NbIconModule,
   NbInputModule,
   NbLayoutModule,
@@ -29,6 +30,7 @@ const formSetting: any = {
     NbLayoutModule,
     NbRadioModule,
     NgxAuthRoutingModule,
+    NbFormFieldModule,
     NbAuthModule.forRoot({
       strategies: [
         NbPasswordAuthStrategy.setup({
