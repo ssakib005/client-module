@@ -36,6 +36,10 @@ const routes: Routes = [{
       loadChildren: () => import('./site-information/site-information.module').then((m) => m.NgxSiteInformationModule),
     },
     {
+      path: 'mcp-board',
+      loadChildren: () => import('./mcp-board/mcp-board.module').then((m) => m.NgxMCPBoardModule),
+    },
+    {
       path: 'logout',
       component: LogoutComponent,
     },

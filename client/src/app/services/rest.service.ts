@@ -7,6 +7,7 @@ import { User } from '../model/user.model';
 import { FunctionalLocation } from '../model/functional.model';
 import {SiteInformation} from '../model/siteInformation.model';
 import { MineInformation } from '../model/mineInformation.model';
+import { MCPBoard } from '../model/mcpBoard.model';
 
 
 @Injectable({
@@ -135,6 +136,36 @@ export class RestService {
 
   deleteMineInformationById(id: string): Observable<boolean> {
     const url = environment.apiUrl + '/MineInformation/Delete/' + id;
+    return this.http
+      .delete(url)
+      .pipe(map((response: any) => response as boolean));
+  }
+
+  // MCP Board
+  createMCPBoard(payload: any): Observable<any> {
+    const url = environment.apiUrl + '/MCPBoard/Create';
+    return this.http.post(url, payload).pipe(map((response: any) => response));
+  }
+
+
+  updateMCPBoard(payload: any): Observable<any> {
+    const url = environment.apiUrl + '/MCPBoard/Update';
+    return this.http.put(url, payload).pipe(map((response: any) => response));
+  }
+
+
+  fetchMCPBoardList(): Observable<MCPBoard[]> {
+    const url = environment.apiUrl + '/MCPBoard/GetAll';
+    return this.http.get(url).pipe(map((response: any) => response.data));
+  }
+
+  fetchMCPBoardById(id: string): Observable<MCPBoard> {
+    const url = environment.apiUrl + '/MCPBoard/GetById/' + id;
+    return this.http.get(url).pipe(map((response: any) => response.data as MCPBoard));
+  }
+
+  deleteMCPBoardById(id: string): Observable<boolean> {
+    const url = environment.apiUrl + '/MCPBoard/Delete/' + id;
     return this.http
       .delete(url)
       .pipe(map((response: any) => response as boolean));
