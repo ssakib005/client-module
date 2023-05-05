@@ -1,7 +1,7 @@
 export class SiteInformation {
   name: any
   description: any
-  image: any
+  // image: any
   functionalLocationIds: any[]
   id: string
   createdAt: string

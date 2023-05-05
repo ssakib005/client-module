@@ -36,8 +36,8 @@ namespace Authentication.Services.FunctionalLocations
                     Description = request.Description,
                     CreatedAt = DateTime.UtcNow,
                     IsDeleted = false,
-                    UpdatedAt = DateTime.UtcNow,
-                    FilePath = request.Image
+                    UpdatedAt = DateTime.UtcNow
+                    //FilePath = request.Image
                 };
                 await _locationRepository.InsertAsync(location);
                 return new FunctionalLocationResponse<bool>() { Code = 200, Message = "Functional Location Successfully Created" };
@@ -59,8 +59,8 @@ namespace Authentication.Services.FunctionalLocations
                     Description = request.Description,
                     CreatedAt = DateTime.UtcNow,
                     IsDeleted = false,
-                    UpdatedAt = DateTime.UtcNow,
-                    FilePath = request.Image
+                    UpdatedAt = DateTime.UtcNow
+                    //FilePath = request.Image
                 };
                 await _locationRepository.UpdateAsync(location);
                 return new FunctionalLocationResponse<bool>() { Code = 200, Message = "Functional Location Successfully Updated" };
@@ -99,8 +99,8 @@ namespace Authentication.Services.FunctionalLocations
                     {
                         Id = res.Id,
                         Name = res.Name,
-                        Description = res.Description,
-                        Image = res.FilePath
+                        Description = res.Description
+                        //Image = res.FilePath
                     }
                 };
             }
@@ -123,8 +123,8 @@ namespace Authentication.Services.FunctionalLocations
                 {
                     Description = x.Description,
                     Id = x.Id,
-                    Name = x.Name,
-                    Image = x.FilePath
+                    Name = x.Name
+                    //Image = x.FilePath
                 }).ToList();
                 return new FunctionalLocationResponse<List<FunctionalLocationList>>() { Code = 200, Message = "Functional Location Successfully Created", Data = list };
             }

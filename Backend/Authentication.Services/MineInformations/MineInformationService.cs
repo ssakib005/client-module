@@ -38,7 +38,7 @@ namespace Authentication.Services.MineInformations
                     CreatedAt = DateTime.UtcNow,
                     IsDeleted = false,
                     UpdatedAt = DateTime.UtcNow,
-                    FilePath = request.Image,
+                    //FilePath = request.Image,
                     SiteInformationIds = request.SiteInformationIds
                 };
                 await _mineInformationRepository.InsertAsync(mineInformation);
@@ -62,7 +62,7 @@ namespace Authentication.Services.MineInformations
                     CreatedAt = DateTime.UtcNow,
                     IsDeleted = false,
                     UpdatedAt = DateTime.UtcNow,
-                    FilePath = request.Image,
+                    //FilePath = request.Image,
                     SiteInformationIds = request.SiteInformationIds
                 };
                 await _mineInformationRepository.UpdateAsync(mineInformation);
@@ -103,7 +103,7 @@ namespace Authentication.Services.MineInformations
                         Id = res.Id,
                         Name = res.Name,
                         Description = res.Description,
-                        Image = res.FilePath,
+                        //Image = res.FilePath,
                         SiteInformationList = res.SiteInformationIds
                     }
                 };
@@ -128,7 +128,7 @@ namespace Authentication.Services.MineInformations
                     Description = x.Description,
                     Id = x.Id,
                     Name = x.Name,
-                    Image = x.FilePath
+                    //Image = x.FilePath
                 }).ToList();
                 return new MineInformationsResponse<List<MineInformationsList>>() { Code = 200, Message = "Mine Information Successfully Created", Data = list };
             }

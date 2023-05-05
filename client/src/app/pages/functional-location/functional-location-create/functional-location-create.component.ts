@@ -11,11 +11,11 @@ import { Observable } from 'rxjs';
   styleUrls: ['./functional-location-create.component.css'],
 })
 export class FunctionalLocationCreateComponent implements OnInit {
-  selectedFiles?: File;
-  selectedFileNames: string = '';
+  // selectedFiles?: File;
+  // selectedFileNames: string = '';
 
-  previews: string = '';
-  imageSrc: string | ArrayBuffer = '';
+  // previews: string = '';
+  // imageSrc: string | ArrayBuffer = '';
 
   location!: FormGroup;
   id: string = undefined;
@@ -32,33 +32,33 @@ export class FunctionalLocationCreateComponent implements OnInit {
     if (this.id !== undefined) {
       this.isCreate = false;
       rest.fetchFunctionalLocationById(this.id).subscribe((response) => {
-        this.imageSrc = response.image
+        // this.imageSrc = response.image
         this.location.setValue({
           id: response.id,
           name: response.name,
           description: response.description,
-          image: response.image,
+          // image: response.image,
         });
       });
     }
   }
 
-  readURL(event: any): void {
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
+  // readURL(event: any): void {
+  //   if (event.target.files && event.target.files[0]) {
+  //     const file = event.target.files[0];
 
-      const reader = new FileReader();
-      reader.onload = (e) => (this.imageSrc = reader.result);
-      reader.readAsDataURL(file);
-    }
-  }
+  //     const reader = new FileReader();
+  //     reader.onload = (e) => (this.imageSrc = reader.result);
+  //     reader.readAsDataURL(file);
+  //   }
+  // }
 
   ngOnInit(): void {
     this.location = this.fb.group({
       id: '',
       name: ['', Validators.required],
       description: ['', Validators.required],
-      image: '',
+      //image: '',
     });
   }
 
@@ -71,7 +71,7 @@ export class FunctionalLocationCreateComponent implements OnInit {
 
     if (this.id === undefined) {
       data.id = '';
-      data.image = this.imageSrc;
+      //data.image = this.imageSrc;
       this.rest.createFunctionalLocation(data).subscribe(
         () => {
           this.toastr.success(
@@ -87,7 +87,7 @@ export class FunctionalLocationCreateComponent implements OnInit {
         }
       );
     } else {
-      data.image = this.imageSrc;
+      //data.image = this.imageSrc;
       this.rest.updateFunctionalLocation(data).subscribe(
         () => {
           this.toastr.success('Functional Location Updated Successfully', 'Functional Location');

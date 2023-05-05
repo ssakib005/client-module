@@ -12,11 +12,11 @@ import { SiteInformation } from '../../../model/siteInformation.model';
   styleUrls: ['./mine-information-create.component.css'],
 })
 export class MineInformationCreateComponent implements OnInit {
-  selectedFiles?: File;
-  selectedFileNames: string = '';
+  // selectedFiles?: File;
+  // selectedFileNames: string = '';
 
-  previews: string = '';
-  imageSrc: string | ArrayBuffer = '';
+  // previews: string = '';
+  // imageSrc: string | ArrayBuffer = '';
 
   mineInformation!: FormGroup;
   id: string = undefined;
@@ -38,12 +38,12 @@ export class MineInformationCreateComponent implements OnInit {
     if (this.id !== undefined) {
       this.isCreate = false;
       rest.fetchMineInformationById(this.id).subscribe((response) => {
-        this.imageSrc = response.image;
+        //this.imageSrc = response.image;
         this.mineInformation.setValue({
           id: response.id,
           name: response.name,
           description: response.description,
-          image: response.image,
+          //image: response.image,
           siteInformationIds: response.siteInformationList,
         });
         this.selectedIds = response.siteInformationList;
@@ -54,15 +54,15 @@ export class MineInformationCreateComponent implements OnInit {
     }
   }
 
-  readURL(event: any): void {
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
+  // readURL(event: any): void {
+  //   if (event.target.files && event.target.files[0]) {
+  //     const file = event.target.files[0];
 
-      const reader = new FileReader();
-      reader.onload = (e) => (this.imageSrc = reader.result);
-      reader.readAsDataURL(file);
-    }
-  }
+  //     const reader = new FileReader();
+  //     reader.onload = (e) => (this.imageSrc = reader.result);
+  //     reader.readAsDataURL(file);
+  //   }
+  // }
 
   ngOnInit(): void {
     
@@ -71,7 +71,7 @@ export class MineInformationCreateComponent implements OnInit {
       name: ['', Validators.required],
       description: ['', Validators.required],
       siteInformationIds: [''],
-      image: '',
+      //image: '',
     });
   }
 
@@ -100,7 +100,7 @@ export class MineInformationCreateComponent implements OnInit {
 
     if (this.id === undefined) {
       data.id = '';
-      data.image = this.imageSrc;
+      //data.image = this.imageSrc;
       data.siteInformationIds = this.list
         .filter(function (obj) {
           return obj.isChecked;
@@ -128,7 +128,7 @@ export class MineInformationCreateComponent implements OnInit {
         }
       );
     } else {
-      data.image = this.imageSrc;
+      //data.image = this.imageSrc;
       data.siteInformationIds = this.list
         .filter(function (obj) {
           return obj.isChecked;

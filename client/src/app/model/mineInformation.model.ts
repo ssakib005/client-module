@@ -1,7 +1,7 @@
 export interface MineInformation {
   name: any
   description: any
-  image: any
+  // image: any
   siteInformationId: any
   id: string
   createdAt: string

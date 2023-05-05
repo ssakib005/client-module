@@ -10,8 +10,8 @@ namespace Authentication.Core.Models
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public string FileName { get; set; }
-        public string FilePath { get; set; }
+        //public string FileName { get; set; }
+        //public string FilePath { get; set; }
         public List<string> SiteInformationIds { get; set; }
 
     }

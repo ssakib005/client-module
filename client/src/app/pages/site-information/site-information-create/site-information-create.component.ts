@@ -12,11 +12,11 @@ import { FunctionalLocation } from '../../../model/functional.model';
   styleUrls: ['./site-information-create.component.css'],
 })
 export class SiteInformationCreateComponent implements OnInit {
-  selectedFiles?: File;
-  selectedFileNames: string = '';
+  // selectedFiles?: File;
+  // selectedFileNames: string = '';
 
-  previews: string = '';
-  imageSrc: string | ArrayBuffer = '';
+  // previews: string = '';
+  // imageSrc: string | ArrayBuffer = '';
 
   siteInformation!: FormGroup;
   id: string = undefined;
@@ -39,12 +39,12 @@ export class SiteInformationCreateComponent implements OnInit {
       this.isCreate = false;
       rest.fetchSiteInformationById(this.id).subscribe((response) => {
         console.table(this.list);
-        this.imageSrc = response.image;
+        //this.imageSrc = response.image;
         this.siteInformation.setValue({
           id: response.id,
           name: response.name,
           description: response.description,
-          image: response.image,
+          //image: response.image,
           functionalLocationIds: response.functionalLocationList,
         });
         this.selectedIds = response.functionalLocationList;
@@ -55,15 +55,15 @@ export class SiteInformationCreateComponent implements OnInit {
     }
   }
 
-  readURL(event: any): void {
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
+  // readURL(event: any): void {
+  //   if (event.target.files && event.target.files[0]) {
+  //     const file = event.target.files[0];
 
-      const reader = new FileReader();
-      reader.onload = (e) => (this.imageSrc = reader.result);
-      reader.readAsDataURL(file);
-    }
-  }
+  //     const reader = new FileReader();
+  //     reader.onload = (e) => (this.imageSrc = reader.result);
+  //     reader.readAsDataURL(file);
+  //   }
+  // }
 
   ngOnInit(): void {
     this.siteInformation = this.fb.group({
@@ -71,7 +71,7 @@ export class SiteInformationCreateComponent implements OnInit {
       name: ['', Validators.required],
       description: ['', Validators.required],
       functionalLocationIds: [],
-      image: '',
+      //image: '',
     });
   }
 
@@ -99,7 +99,7 @@ export class SiteInformationCreateComponent implements OnInit {
     var data = this.siteInformation.value;
     if (this.id === undefined) {
       data.id = '';
-      data.image = this.imageSrc;
+      //data.image = this.imageSrc;
       data.functionalLocationIds = this.list
         .filter(function (obj) {
           return obj.isChecked;
@@ -127,7 +127,7 @@ export class SiteInformationCreateComponent implements OnInit {
         }
       );
     } else {
-      data.image = this.imageSrc;
+      //data.image = this.imageSrc;
       data.functionalLocationIds = this.list
         .filter(function (obj) {
           return obj.isChecked;

@@ -38,7 +38,7 @@ namespace Authentication.Services.SiteInformations
                     CreatedAt = DateTime.UtcNow,
                     IsDeleted = false,
                     UpdatedAt = DateTime.UtcNow,
-                    FilePath = request.Image,
+                    //FilePath = request.Image,
                     FunctionalLocationIds = request.FunctionalLocationIds
                 };
                 await _siteInformationRepository.InsertAsync(siteInformation);
@@ -62,7 +62,7 @@ namespace Authentication.Services.SiteInformations
                     CreatedAt = DateTime.UtcNow,
                     IsDeleted = false,
                     UpdatedAt = DateTime.UtcNow,
-                    FilePath = request.Image,
+                    //FilePath = request.Image,
                     FunctionalLocationIds = request.FunctionalLocationIds
                 };
                 await _siteInformationRepository.UpdateAsync(siteInformation);
@@ -104,7 +104,7 @@ namespace Authentication.Services.SiteInformations
                         Id = res.Id,
                         Name = res.Name,
                         Description = res.Description,
-                        Image = res.FilePath,
+                        //Image = res.FilePath,
                         FunctionalLocationList = res.FunctionalLocationIds
                     }
                 };
@@ -129,7 +129,7 @@ namespace Authentication.Services.SiteInformations
                     Description = x.Description,
                     Id = x.Id,
                     Name = x.Name,
-                    Image = x.FilePath
+                    //Image = x.FilePath
                 }).ToList();
                 return new SiteInformationsResponse<List<SiteInformationsList>>() { Code = 200, Message = "Site Information Successfully Created", Data = list };
             }
