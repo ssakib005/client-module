@@ -4,6 +4,8 @@ using Authentication.Services.FunctionalLocations;
 using Authentication.Services.FunctionalLocations.Request;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using static System.Net.Mime.MediaTypeNames;
+using Authentication.Services.SiteInformations;
+using Authentication.Services.FunctionalLocations.Response;
 
 namespace AuthenticationWebapi.Controllers
 {
@@ -12,14 +14,17 @@ namespace AuthenticationWebapi.Controllers
     public class FunctionalLocationController : ControllerBase
     {
         private readonly IFunctionalLocationService _service;
+        private readonly ISiteInformationService _siteInformationService;
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _hostingEnv;
 
-        public FunctionalLocationController(IFunctionalLocationService service, IWebHostEnvironment env, IConfiguration configuration)
+        public FunctionalLocationController(IFunctionalLocationService service, IWebHostEnvironment env,
+            IConfiguration configuration, ISiteInformationService siteInformationService)
         {
             _service = service;
             _hostingEnv = env;
             _configuration = configuration;
+            _siteInformationService = siteInformationService;
         }
 
         [HttpPost("Create")]
@@ -63,6 +68,20 @@ namespace AuthenticationWebapi.Controllers
         {
             var dbUser = await _service.DeleteByIdAsync(id);
             return Ok(dbUser);
+        }
+
+        [HttpGet("GetListBySiteInformationId/{id}")]
+        public async Task<ActionResult<FunctionalLocation>> GetListBySiteInformationId(string id)
+        {
+            var siteInformation = await _siteInformationService.GetByIdAsync(id);
+            var functionalLocationList = new List<FunctionalLocationList>();
+            foreach (var item in siteInformation.Data.FunctionalLocationList)
+            {
+                var functionalLocation = await _service.GetByIdAsync(item);
+                if (functionalLocation != null)
+                    functionalLocationList.Add(functionalLocation.Data);
+            }
+            return Ok(functionalLocationList);
         }
     }
 }

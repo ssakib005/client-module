@@ -4,6 +4,8 @@ using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using static System.Net.Mime.MediaTypeNames;
 using Authentication.Services.SiteInformations;
 using Authentication.Services.SiteInformations.Request;
+using Authentication.Services.MineInformations;
+using Authentication.Services.SiteInformations.Response;
 
 namespace AuthenticationWebapi.Controllers
 {
@@ -12,14 +14,17 @@ namespace AuthenticationWebapi.Controllers
     public class SiteInformationController : ControllerBase
     {
         private readonly ISiteInformationService _service;
+        private readonly IMineInformationService _mineInformationService;
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _hostingEnv;
 
-        public SiteInformationController(ISiteInformationService service, IWebHostEnvironment env, IConfiguration configuration)
+        public SiteInformationController(ISiteInformationService service, IWebHostEnvironment env,
+            IConfiguration configuration, IMineInformationService mineInformationService)
         {
             _service = service;
             _hostingEnv = env;
             _configuration = configuration;
+            _mineInformationService = mineInformationService;
         }
 
         [HttpPost("Create")]
@@ -63,6 +68,20 @@ namespace AuthenticationWebapi.Controllers
         {
             var siteInformation = await _service.DeleteByIdAsync(id);
             return Ok(siteInformation);
+        }
+
+        [HttpGet("GetListByMineInformationId/{id}")]
+        public async Task<ActionResult<SiteInformation>> GetListByMineInformationId(string id)
+        {
+            var mineInformation = await _mineInformationService.GetByIdAsync(id);
+            var siteInformationList = new List<SiteInformationsList>();
+            foreach(var item in mineInformation.Data.SiteInformationList) 
+            {
+                var siteInformation = await _service.GetByIdAsync(item);
+                if (siteInformation != null)
+                    siteInformationList.Add(siteInformation.Data);
+            }
+            return Ok(siteInformationList);
         }
     }
 }

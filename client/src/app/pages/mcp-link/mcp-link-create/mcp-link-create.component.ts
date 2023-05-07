@@ -120,7 +120,8 @@ export class MCPLinkCreateComponent implements OnInit {
 
       this.rest
       .fetchSiteInformationListByMineInformationId(this.mcp.get('mineInformationId').value)
-      .subscribe((response) => (this.siteInformationList = response));
+      .subscribe((response) => (
+        this.siteInformationList = response));
 
       this.mcp.get('siteInformationId').setValue("");
     }
@@ -132,8 +133,9 @@ export class MCPLinkCreateComponent implements OnInit {
     }
     else {
       this.rest
-      .fetchFunctionalLocationList()
-      .subscribe((response) => (this.functionalLocationList = response));
+      .fetchFunctionalLocationListBySiteInformationId(this.mcp.get('siteInformationId').value)
+      .subscribe((response) => (
+        this.functionalLocationList = response));
 
       this.mcp.get('functionalLocationId').setValue("");
     }

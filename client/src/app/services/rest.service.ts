@@ -81,8 +81,8 @@ export class RestService {
   }
 
   fetchFunctionalLocationListBySiteInformationId(id: string): Observable<FunctionalLocation[]> {
-    const url = environment.apiUrl + '/FunctionalLocation/GetListBySiteInformationId' + id;
-    return this.http.get(url).pipe(map((response: any) => response.data));
+    const url = environment.apiUrl + '/FunctionalLocation/GetListBySiteInformationId/' + id;
+    return this.http.get(url).pipe(map((response: any) => response));
   }
 
   // Site Information
@@ -116,8 +116,8 @@ export class RestService {
   }
 
   fetchSiteInformationListByMineInformationId(id: string): Observable<SiteInformation[]> {
-    const url = environment.apiUrl + '/SiteInformation/GetListByMineInformationId' + id;
-    return this.http.get(url).pipe(map((response: any) => response.data));
+    const url = environment.apiUrl + '/SiteInformation/GetListByMineInformationId/' + id;
+    return this.http.get(url).pipe(map((response: any) => response));
   }
 
   // Mine Information
