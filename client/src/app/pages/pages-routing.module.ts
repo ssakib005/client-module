@@ -40,6 +40,10 @@ const routes: Routes = [{
       loadChildren: () => import('./mcp-board/mcp-board.module').then((m) => m.NgxMCPBoardModule),
     },
     {
+      path: 'mcp-link',
+      loadChildren: () => import('./mcp-link/mcp-link.module').then((m) => m.NgxMCPLinkModule),
+    },
+    {
       path: 'logout',
       component: LogoutComponent,
     },

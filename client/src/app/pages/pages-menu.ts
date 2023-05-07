@@ -38,6 +38,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/mcp-board'
   },
   {
+    title: 'MCP Link',
+    icon: 'globe-2-outline',
+    link: '/pages/mcp-link'
+  },
+  {
     title: 'Logout',
     icon: 'log-out-outline',
     link: '/pages/logout'

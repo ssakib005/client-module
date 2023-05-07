@@ -1,0 +1,76 @@
+<nb-card>
+  <nb-card-header style="display: flex; justify-content: space-between">
+    MCP Link List
+    <button
+      type="button"
+      nbButton
+      status="primary"
+      [routerLink]="['/pages/mcp-link/create']"
+    >
+      Create MCP Link
+    </button>
+  </nb-card-header>
+
+  <nb-card-body>
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width: 30%; text-align: center">Name</th>
+          <th style="width: 30%; text-align: center">Description</th>
+          <th
+            style="
+              min-width: 200px;
+              align-self: stretch;
+              max-width: 250px;
+              text-align: center;
+            "
+          >
+            Action
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let mcp of list">
+          <td style=" text-align: center;">{{ mcp.name }}</td>
+          <td style=" text-align: center;">{{ mcp.description | slice:0:100 }}...</td>
+          <td
+            style="
+              white-space: nowrap;
+              min-width: 200px;
+              align-self: stretch;
+              max-width: 250px;
+              text-align: center;
+            "
+          >
+            <a
+              routerLink="/pages/mcp-board/edit/{{ mcp.id }}"
+              class="btn btn-sm btn-primary mr-1"
+              >Edit</a
+            >
+            <button
+              (click)="deleteMCPBoard(mcp.id)"
+              class="btn btn-sm btn-danger btn-delete-user"
+              [disabled]="mcp.isDeleting"
+            >
+              <span
+                *ngIf="mcp.isDeleting"
+                class="spinner-border spinner-border-sm"
+              ></span>
+              <span *ngIf="!mcp.isDeleting">Delete</span>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="!list">
+          <td colspan="4" class="text-center">
+            <span class="spinner-border spinner-border-lg align-center"></span>
+          </td>
+        </tr>
+        <tr *ngIf="list?.length === 0">
+          <td colspan="4" class="text-center">
+            <span class="">No Data Found</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>

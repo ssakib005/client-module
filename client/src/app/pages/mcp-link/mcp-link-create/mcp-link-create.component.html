@@ -1,0 +1,283 @@
+<nb-card>
+  <nb-card-header style="display: flex; justify-content: space-between">
+    <label class="label col-form-label">Create MCP Link</label>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="mcp" (ngSubmit)="onSubmit()">
+      <div
+        class="col-lg-4 col-md-6 col-sm-12 col-xs-12 offset-lg-4 offset-md-3"
+      >
+
+      <div class="form-group row">
+        <label class="label col-3 col-form-label" for="mineInformationId"
+          >Mine Information:</label
+        >
+        <div class="col-9">
+          <nb-select
+            
+            id="mineInformationId"
+            fullWidth
+            autocomplete="off"
+            placeholder="Mine Information"
+            [status]="
+              mcp.controls.mineInformationId.dirty
+                ? mcp.controls.mineInformationId.invalid
+                  ? 'danger'
+                  : 'success'
+                : 'basic'
+            "
+            [attr.aria-invalid]="
+            mcp.controls.mineInformationId.invalid && mcp.controls.mineInformationId.touched
+                ? true
+                : null
+            "
+            formControlName="mineInformationId"
+            (selectedChange)="getSiteInformationList()"
+          >
+            <nb-option
+              *ngFor="let option of mineInformationList"
+               value="{{ option.id }}"
+            >
+              {{ option.name }}
+            </nb-option>
+        </nb-select>
+          <ng-container
+            *ngIf="
+            mcp.controls.mineInformationId.invalid &&
+            mcp.controls.mineInformationId.touched
+            "
+          >
+            <p
+              class="caption status-danger"
+              *ngIf="mcp.controls.mineInformationId.errors?.required"
+            >
+            Mine Information is required
+            </p>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="label col-3 col-form-label" for="siteInformationId"
+          >Site Information:</label
+        >
+        <div class="col-9">
+          <nb-select
+            
+            id="siteInformationId"
+            fullWidth
+            autocomplete="off"
+            placeholder="Site Information"
+            [status]="
+              mcp.controls.siteInformationId.dirty
+                ? mcp.controls.siteInformationId.invalid
+                  ? 'danger'
+                  : 'success'
+                : 'basic'
+            "
+            [attr.aria-invalid]="
+            mcp.controls.siteInformationId.invalid && mcp.controls.siteInformationId.touched
+                ? true
+                : null
+            "
+            formControlName="siteInformationId"
+            (selectedChange)="getFunctionalLocationList()"
+          >
+            <nb-option
+              *ngFor="let option of siteInformationList"
+               value="{{ option.id }}"
+            >
+              {{ option.name }}
+            </nb-option>
+        </nb-select>
+          <ng-container
+            *ngIf="
+            mcp.controls.siteInformationId.invalid &&
+            mcp.controls.siteInformationId.touched
+            "
+          >
+            <p
+              class="caption status-danger"
+              *ngIf="mcp.controls.siteInformationId.errors?.required"
+            >
+            Site Information is required
+            </p>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="label col-3 col-form-label" for="mcpBoardId"
+          >MCP Board:</label
+        >
+        <div class="col-9">
+          <nb-select
+            
+            id="mcpBoardId"
+            fullWidth
+            autocomplete="off"
+            placeholder="MCP Board"
+            [status]="
+              mcp.controls.mcpBoardId.dirty
+                ? mcp.controls.mcpBoardId.invalid
+                  ? 'danger'
+                  : 'success'
+                : 'basic'
+            "
+            [attr.aria-invalid]="
+            mcp.controls.mcpBoardId.invalid && mcp.controls.mcpBoardId.touched
+                ? true
+                : null
+            "
+            formControlName="mcpBoardId"
+          >
+            <nb-option
+              *ngFor="let option of mcpBoardList"
+               value="{{ option.id }}"
+            >
+              {{ option.name }}
+            </nb-option>
+        </nb-select>
+          <ng-container
+            *ngIf="
+            mcp.controls.mcpBoardId.invalid &&
+            mcp.controls.mcpBoardId.touched
+            "
+          >
+            <p
+              class="caption status-danger"
+              *ngIf="mcp.controls.mcpBoardId.errors?.required"
+            >
+            MCP Board is required
+            </p>
+          </ng-container>
+        </div>
+      </div>
+
+        <div class="form-group row">
+          <label class="label col-3 col-form-label" for="name">Panel:</label>
+          <div class="col-9">
+            <input
+              nbInput
+              id="panel"
+              type="text"
+              fullWidth
+              placeholder="Panel"
+              autocomplete="off"
+              [status]="
+                mcp.controls.panel.dirty
+                  ? mcp.controls.panel.invalid
+                    ? 'danger'
+                    : 'success'
+                  : 'basic'
+              "
+              [attr.aria-invalid]="
+              mcp.controls.panel.invalid && mcp.controls.panel.touched
+                  ? true
+                  : null
+              "
+              formControlName="panel"
+            />
+            <ng-container
+              *ngIf="
+              mcp.controls.panel.invalid && mcp.controls.panel.touched
+              "
+            >
+              <p
+                class="caption status-danger"
+                *ngIf="mcp.controls.panel.errors?.required"
+              >
+              Panel is required
+              </p>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="label col-3 col-form-label" for="functionalLocationId"
+            >Functional Location:</label
+          >
+          <div class="col-9">
+            <nb-select
+              
+              id="functionalLocationId"
+              fullWidth
+              autocomplete="off"
+              placeholder="Functional Location"
+              [status]="
+                mcp.controls.functionalLocationId.dirty
+                  ? mcp.controls.functionalLocationId.invalid
+                    ? 'danger'
+                    : 'success'
+                  : 'basic'
+              "
+              [attr.aria-invalid]="
+              mcp.controls.functionalLocationId.invalid && mcp.controls.functionalLocationId.touched
+                  ? true
+                  : null
+              "
+              formControlName="functionalLocationId"
+            >
+              <nb-option
+                *ngFor="let option of functionalLocationList"
+                 value="{{ option.id }}"
+              >
+                {{ option.name }}
+              </nb-option>
+          </nb-select>
+            <ng-container
+              *ngIf="
+              mcp.controls.functionalLocationId.invalid &&
+              mcp.controls.functionalLocationId.touched
+              "
+            >
+              <p
+                class="caption status-danger"
+                *ngIf="mcp.controls.functionalLocationId.errors?.required"
+              >
+              Functional Location is required
+              </p>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-9 offset-3">
+            <div class="row float-right">
+              <button
+                type="button"
+                nbButton
+                status="danger"
+                [routerLink]="['/pages/mcp-link/list']"
+              >
+                Cancel
+              </button>
+
+              <input
+                *ngIf="isCreate"
+                type="submit"
+                style="margin-right: 15px; margin-left: 8px"
+                [disabled]="!mcp.valid"
+                size="small"
+                class="btn btn-primary"
+                value="Save"
+              />
+
+              <input
+                *ngIf="!isCreate"
+                type="submit"
+                style="margin-right: 15px; margin-left: 8px"
+                [disabled]="!mcp.valid"
+                size="small"
+                class="btn btn-primary"
+                value="Update"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- <p>Form Status: {{ imageSrc }}</p> -->
+  </nb-card-body>
+</nb-card>
