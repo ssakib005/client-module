@@ -4,6 +4,7 @@ using Authentication.Core.MongoDb.Repository;
 using Authentication.Core.Options;
 using Authentication.Services.FunctionalLocations;
 using Authentication.Services.MCPBoards;
+using Authentication.Services.MCPLinks;
 using Authentication.Services.MineInformations;
 using Authentication.Services.SiteInformations;
 using Authentication.Services.Users;
@@ -25,6 +26,7 @@ builder.Services.AddScoped<IFunctionalLocationService, FunctionalLocationService
 builder.Services.AddScoped<ISiteInformationService, SiteInformationService>();
 builder.Services.AddScoped<IMineInformationService, MineInformationService>();
 builder.Services.AddScoped<IMCPBoardService, MCPBoardService>();
+builder.Services.AddScoped<IMCPLinkService, MCPLinkService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<ISessionService, SessionService>();

@@ -55,6 +55,7 @@ namespace Authentication.Services.MCPLinks
             {
                 var mcpLink = new MCPLink()
                 {
+                    Id = request.Id,
                     SiteInformationId = request.SiteInformationId,
                     MineInformationId = request.MineInformationId,
                     MCPBoardId = request.MCPBoardId,

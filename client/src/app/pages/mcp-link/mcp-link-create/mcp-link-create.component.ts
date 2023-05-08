@@ -37,6 +37,18 @@ export class MCPLinkCreateComponent implements OnInit {
     if (this.id !== undefined) {
       this.isCreate = false;
       rest.fetchMCPLinkById(this.id).subscribe((response) => {
+
+        this.rest
+        .fetchSiteInformationListByMineInformationId(response.mineInformationId)
+        .subscribe((response) => (
+          this.siteInformationList = response));
+        
+        this.rest
+      .fetchFunctionalLocationListBySiteInformationId(response.siteInformationId)
+      .subscribe((response) => (
+        this.functionalLocationList = response));
+  
+        this.mcp.get('siteInformationId').setValue("");
         this.mcp.setValue({
           id: response.id,
           mineInformationId: response.mineInformationId,
@@ -83,6 +95,7 @@ export class MCPLinkCreateComponent implements OnInit {
 
     if (this.id === undefined) {
       data.id = '';
+      data.link = '';
       this.rest.createMCPLink(data).subscribe(
         () => {
           this.toastr.success(
@@ -98,6 +111,7 @@ export class MCPLinkCreateComponent implements OnInit {
         }
       );
     } else {
+      data.link = '';
       this.rest.updateMCPLink(data).subscribe(
         () => {
           this.toastr.success('MCP Link Updated Successfully', 'MCP Link');

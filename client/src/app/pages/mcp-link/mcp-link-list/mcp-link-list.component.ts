@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../../../services/rest.service';
 import { ToastrService } from 'ngx-toastr';
-import { MCPBoard } from '../../../model/mcpBoard.model';
+import { MCPLink } from '../../../model/mcpLink.model';
 
 @Component({
   selector: 'app-mcp-link-list',
@@ -9,32 +9,32 @@ import { MCPBoard } from '../../../model/mcpBoard.model';
   styleUrls: ['./mcp-link-list.component.css'],
 })
 export class MCPLinkListComponent implements OnInit {
-  list: MCPBoard[];
+  list: MCPLink[];
 
   constructor(private rest: RestService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
-    this.fetchMCPBoardList();
+    this.fetchMCPLinkList();
   }
 
-  fetchMCPBoardList(): void {
+  fetchMCPLinkList(): void {
     this.rest
-      .fetchMCPBoardList()
+      .fetchMCPLinkList()
       .subscribe((response) => (this.list = response));
   }
 
-  deleteMCPBoard(userId): void {
-    this.rest.deleteMCPBoardById(userId).subscribe(
+  deleteMCPLink(id): void {
+    this.rest.deleteMCPLinkById(id).subscribe(
       (response) => {
         if (response) {
-          this.toastr.success('MCP Board Deleted Successfully', 'MCP Board');
-          this.fetchMCPBoardList();
+          this.toastr.success('MCP Link Deleted Successfully', 'MCP Link');
+          this.fetchMCPLinkList();
         } else {
-          this.toastr.error('MCP Board not found', 'User');
+          this.toastr.error('MCP Link not found', 'MCP Link');
         }
       },
       (error) => {
-        this.toastr.error('Something wrong! Please try again later', 'MCP Board');
+        this.toastr.error('Something wrong! Please try again later', 'MCP Link');
       }
     );
   }

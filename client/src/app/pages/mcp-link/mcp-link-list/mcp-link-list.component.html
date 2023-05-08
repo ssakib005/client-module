@@ -15,8 +15,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th style="width: 30%; text-align: center">Name</th>
-          <th style="width: 30%; text-align: center">Description</th>
+          <th style="width: 30%; text-align: center">Link</th>
           <th
             style="
               min-width: 200px;
@@ -31,8 +30,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let mcp of list">
-          <td style=" text-align: center;">{{ mcp.name }}</td>
-          <td style=" text-align: center;">{{ mcp.description | slice:0:100 }}...</td>
+          <td style=" text-align: center;">{{ mcp.link }}</td>
           <td
             style="
               white-space: nowrap;
@@ -43,12 +41,12 @@
             "
           >
             <a
-              routerLink="/pages/mcp-board/edit/{{ mcp.id }}"
+              routerLink="/pages/mcp-link/edit/{{ mcp.id }}"
               class="btn btn-sm btn-primary mr-1"
               >Edit</a
             >
             <button
-              (click)="deleteMCPBoard(mcp.id)"
+              (click)="deleteMCPLink(mcp.id)"
               class="btn btn-sm btn-danger btn-delete-user"
               [disabled]="mcp.isDeleting"
             >
