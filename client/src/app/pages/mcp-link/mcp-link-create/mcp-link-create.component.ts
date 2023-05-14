@@ -208,6 +208,8 @@ export class MCPLinkCreateComponent implements OnInit {
         editedItem.functionalLocationName = selectedFunctionalLocation.name;
         editedItem.panel = panel;
         editedItem.link = selectedMineInformation.name + " " + selectedSiteInformation.name + " " + selectedMCPBoard.name + " " + panel + " " + selectedFunctionalLocation.name;
+
+        this.randomId = undefined;
       }
       else
       {
