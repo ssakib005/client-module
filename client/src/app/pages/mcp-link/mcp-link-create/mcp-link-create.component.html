@@ -5,7 +5,7 @@
   <nb-card-body>
     <form [formGroup]="mcp" (ngSubmit)="onSubmit()">
       <div
-        class="col-lg-4 col-md-6 col-sm-12 col-xs-12 offset-lg-4 offset-md-3"
+        class=""
       >
 
       <div class="form-group row">
@@ -81,7 +81,7 @@
                 : null
             "
             formControlName="siteInformationId"
-            (selectedChange)="getFunctionalLocationList()"
+            (selectedChange)="getMCPLinkANDFunctionalLocationList()"
           >
             <nb-option
               *ngFor="let option of siteInformationList"
@@ -244,20 +244,87 @@
         <div class="form-group row">
           <div class="col-9 offset-3">
             <div class="row float-right">
+
+              <input
+                type="button"
+                style="margin-right: 15px; margin-left: 8px"
+                [disabled]="!mcp.valid"
+                size="small"
+                class="btn btn-primary"
+                value="Add Link"
+                (click)="addMCPLink()"
+              />
+
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-nowrap mb-0">
+                <thead>
+                  <tr class="tableheader">
+                    <th scope="col">Mine</th>
+                    <th scope="col">Site</th>
+                    <th scope="col">MCP Board</th>
+                    <th scope="col">Pnael</th>
+                    <th scope="col">Functional Location</th>
+                    <th scope="col">Link</th>
+                    <th scope="col">{{'Action'}}</th>
+                    <th scope="col">{{'Action'}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of selectedList">
+                    <td style="width: 100px;">{{item.mineInformationName}}</td>
+                    <td style="width: 100px;">{{item.siteInformationName}}</td>
+                    <td style="width: 100px;">{{item.mcpBoardName}}</td>
+                    <td style="width: 100px;">{{item.panel}}</td>
+                    <td style="width: 100px;">{{item.functionalLocationName}}</td>
+                    <td style="width: 200px;">{{item.link}}</td>
+                    <td style="width: 100px;">
+                      <button
+                       type="button"
+                       class="btn btn-sm btn-primary mr-1"
+                      (click)="editMCPLink(item)">
+                      Edit
+                      </button>
+                      
+                    </td>
+                    <td style="width: 100px;">
+                      <button
+                       type="button"
+                       class="btn btn-danger"
+                      (click)="deleteMCPLink(item)">
+                      Delete
+                      </button>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-9 offset-3">
+            <div class="row float-right">
               <button
                 type="button"
                 nbButton
                 status="danger"
-                [routerLink]="['/pages/mcp-link/list']"
+                [routerLink]="['/pages/mcp-link/create']"
               >
                 Cancel
               </button>
 
               <input
-                *ngIf="isCreate"
                 type="submit"
                 style="margin-right: 15px; margin-left: 8px"
-                [disabled]="!mcp.valid"
+                [disabled]="selectedList.length <= 0"
                 size="small"
                 class="btn btn-primary"
                 value="Save"

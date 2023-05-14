@@ -183,7 +183,6 @@ export class RestService {
 
   // MCP Link
   createMCPLink(payload: any): Observable<any> {
-    debugger;
     const url = environment.apiUrl + '/MCPLink/Create';
     return this.http.post(url, payload).pipe(map((response: any) => response));
   }
@@ -211,4 +210,10 @@ export class RestService {
       .delete(url)
       .pipe(map((response: any) => response as boolean));
   }
+
+  fetchMCPLinkListByMineANDSiteInformationId(mid: string,sid:string): Observable<MCPLink[]> {
+    const url = environment.apiUrl + '/MCPLink/GetListByMineAndSiteInformationId/' + mid + "/" + sid;
+    return this.http.get(url).pipe(map((response: any) => response.data));
+  }
+  
 }

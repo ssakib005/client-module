@@ -12,14 +12,26 @@ namespace Authentication.Services.MCPLinks
     {
         private readonly ApiConfigurationOptions _apiConfig;
         private readonly IMongoDbRepository<MCPLink> _mcpLinkRepository;
+        private readonly IMongoDbRepository<MineInformation> _mineInformationRepository;
+        private readonly IMongoDbRepository<SiteInformation> _siteInformationRepository;
+        private readonly IMongoDbRepository<MCPBoard> _mcpBoardRepository;
+        private readonly IMongoDbRepository<FunctionalLocation> _functionalLocationRepository;
         private readonly ISessionService _sessionService;
         public MCPLinkService(
             IOptions<ApiConfigurationOptions> apiConfig,
             IMongoDbRepository<MCPLink> mcpLinkRepository,
+            IMongoDbRepository<MineInformation> mineInformationRepository,
+            IMongoDbRepository<SiteInformation> siteInformationRepository,
+            IMongoDbRepository<MCPBoard> mcpBoardRepository,
+            IMongoDbRepository<FunctionalLocation> functionLocationRepository,
             ISessionService sessionService)
         {
             _apiConfig = apiConfig.Value;
             _mcpLinkRepository = mcpLinkRepository;
+            _mcpBoardRepository = mcpBoardRepository;
+            _mineInformationRepository = mineInformationRepository;
+            _siteInformationRepository = siteInformationRepository;
+            _functionalLocationRepository = functionLocationRepository;
             _sessionService = sessionService;
         }
 
@@ -143,7 +155,34 @@ namespace Authentication.Services.MCPLinks
                 return new MCPLinkResponse<List<MCPLinkList>>() { Code = 200, Message = ex.Message };
             }
         }
+        public async Task<MCPLinkResponse<List<MCPLinkList>>> GetListByMineAndSiteInformationId(string mid, string sid)
+        {
+            try
+            {
+                var res = await _mcpLinkRepository.FindAllAsync(obj => obj.MineInformationId == mid && obj.SiteInformationId == sid);
+                
+                var list = res.Select(x => new MCPLinkList()
+                {
+                    Id = x.Id,
+                    SiteInformationId = x.SiteInformationId,
+                    SiteInformationName = _siteInformationRepository.GetById(x.SiteInformationId).Name,
+                    MineInformationId = x.MineInformationId,
+                    MineInformationName = _mineInformationRepository.GetById(x.MineInformationId).Name,
+                    MCPBoardId = x.MCPBoardId,
+                    MCPBoardName = _mcpBoardRepository.GetById(x.MCPBoardId).Name,
+                    Panel = x.Panel,
+                    FunctionalLocationId = x.FunctionalLocationId,
+                    FunctionalLocationName = _functionalLocationRepository.GetById(x.FunctionalLocationId).Name,
+                    Link = x.Link
+                }).ToList();
 
-       
+                return new MCPLinkResponse<List<MCPLinkList>>() { Code = 200, Message = "All MCP Link Retrive Successfully", Data = list };
+            }
+            catch (Exception ex)
+            {
+                return new MCPLinkResponse<List<MCPLinkList>>() { Code = 200, Message = ex.Message };
+            }
+        }
+
     }
 }

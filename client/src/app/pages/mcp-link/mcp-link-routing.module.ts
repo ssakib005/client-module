@@ -11,7 +11,7 @@ const froutes: Routes = [{
   children: [
     {
       path: 'list',
-      component: MCPLinkListComponent,
+      component: MCPLinkCreateComponent,
     },
     {
       path: 'create',

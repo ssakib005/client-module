@@ -10,5 +10,6 @@ namespace Authentication.Services.MCPLinks
         Task<MCPLinkResponse<List<MCPLinkList>>> ListAsync();
         Task<MCPLinkResponse<MCPLinkList>> GetByIdAsync(string id);
         Task<bool> DeleteByIdAsync(string id);
+        Task<MCPLinkResponse<List<MCPLinkList>>> GetListByMineAndSiteInformationId(string mid, string sid);
     }
 }

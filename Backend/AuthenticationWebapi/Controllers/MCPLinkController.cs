@@ -8,6 +8,7 @@ using Authentication.Services.MineInformations;
 using Authentication.Services.SiteInformations;
 using Authentication.Services.MCPBoards;
 using Authentication.Services.FunctionalLocations;
+using Authentication.Services.MCPLinks.Response;
 
 namespace AuthenticationWebapi.Controllers
 {
@@ -38,21 +39,36 @@ namespace AuthenticationWebapi.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ActionResult<MCPLink>> Create([FromBody] MCPLinkDTO request)
+        public async Task<ActionResult<MCPLink>> Create([FromBody] List<MCPLinkList> request)
         {
-            var mineInformation = await _mineInformationService.GetByIdAsync(request.MineInformationId);
-            var siteInformation = await _siteInformationService.GetByIdAsync(request.SiteInformationId);
-            var mcpBoard = await _mcpBoardService.GetByIdAsync(request.MCPBoardId);
-            var functionalLocation = await _functionalLocationService.GetByIdAsync(request.FunctionalLocationId);
 
-            request.Link = mineInformation.Data.Name + " " + siteInformation.Data.Name + " " + mcpBoard.Data.Name + " " + request.Panel + " " + functionalLocation.Data.Name;
-
-            var mcpLink = await _service.CreateAsync(request);
-            if(mcpLink.Code == 200)
+            try
             {
-                return Ok(mcpLink);
+                var existingMCPLinkList = await _service.GetListByMineAndSiteInformationId(request[0].MineInformationId, request[0].SiteInformationId);
+                foreach(var ex in existingMCPLinkList.Data) 
+                {
+                    await _service.DeleteByIdAsync(ex.Id);
+                }
+
+                foreach (var item in request)
+                {
+                    var link = new MCPLinkDTO();
+                    link.MineInformationId = item.MineInformationId;
+                    link.SiteInformationId = item.SiteInformationId;
+                    link.MCPBoardId = item.MCPBoardId;
+                    link.Panel = item.Panel;
+                    link.FunctionalLocationId = item.FunctionalLocationId;
+                    link.Link = item.Link;
+
+                    await _service.CreateAsync(link);
+
+                }
+                return Ok();
             }
-           return BadRequest(mcpLink.Message);
+            catch (Exception ex) 
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPut("Update")]
@@ -92,6 +108,13 @@ namespace AuthenticationWebapi.Controllers
         {
             var mcpLink = await _service.DeleteByIdAsync(id);
             return Ok(mcpLink);
+        }
+
+        [HttpGet("GetListByMineAndSiteInformationId/{mid}/{sid}")]
+        public async Task<ActionResult<MCPLink>> GetListByMineAndSiteInformationId(string mid, string sid)
+        {
+            var mcpLinkList = await _service.GetListByMineAndSiteInformationId(mid,sid);
+            return Ok(mcpLinkList);
         }
     }
 }

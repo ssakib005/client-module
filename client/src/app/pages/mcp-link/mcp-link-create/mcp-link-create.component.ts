@@ -8,6 +8,7 @@ import { MineInformation } from '../../../model/mineInformation.model';
 import { SiteInformation } from '../../../model/siteInformation.model';
 import { FunctionalLocation } from '../../../model/functional.model';
 import { MCPBoard } from '../../../model/mcpBoard.model';
+import { MCPLink } from '../../../model/mcpLink.model';
 
 @Component({
   selector: 'app-mcp-link-create',
@@ -23,6 +24,8 @@ export class MCPLinkCreateComponent implements OnInit {
   siteInformationList: SiteInformation[] =[];
   functionalLocationList: FunctionalLocation[] =[];
   mcpBoardList: MCPBoard[] =[];
+  selectedList: MCPLink[] = [];
+  randomId: any;
 
   constructor(
     private fb: FormBuilder,
@@ -87,15 +90,9 @@ export class MCPLinkCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.mcp.invalid) {
-      return;
-    }
-
-    var data = this.mcp.value;
+    var data = this.selectedList;
 
     if (this.id === undefined) {
-      data.id = '';
-      data.link = '';
       this.rest.createMCPLink(data).subscribe(
         () => {
           this.toastr.success(
@@ -103,7 +100,7 @@ export class MCPLinkCreateComponent implements OnInit {
             'MCP Link'
           );
           setTimeout(() => {
-            this.router.navigate(['/pages/mcp-link/list']);
+           location.reload();
           }, 2000);
         },
         (error) => {
@@ -111,12 +108,11 @@ export class MCPLinkCreateComponent implements OnInit {
         }
       );
     } else {
-      data.link = '';
       this.rest.updateMCPLink(data).subscribe(
         () => {
           this.toastr.success('MCP Link Updated Successfully', 'MCP Link');
           setTimeout(() => {
-            this.router.navigate(['/pages/mcp-link/list']);
+            location.reload();
           }, 2000);
         },
         (error) => {
@@ -132,6 +128,7 @@ export class MCPLinkCreateComponent implements OnInit {
     }
     else {
 
+      this.selectedList = [];
       this.rest
       .fetchSiteInformationListByMineInformationId(this.mcp.get('mineInformationId').value)
       .subscribe((response) => (
@@ -141,7 +138,7 @@ export class MCPLinkCreateComponent implements OnInit {
     }
   }
 
-  getFunctionalLocationList() {
+  getMCPLinkANDFunctionalLocationList() {
     if (this.mcp.get('siteInformationId').value == null) {
       return;
     }
@@ -152,7 +149,95 @@ export class MCPLinkCreateComponent implements OnInit {
         this.functionalLocationList = response));
 
       this.mcp.get('functionalLocationId').setValue("");
+
+      this.rest
+      .fetchMCPLinkListByMineANDSiteInformationId(this.mcp.get('mineInformationId').value,this.mcp.get('siteInformationId').value)
+      .subscribe((response) => (
+        this.selectedList = response));
+
     }
+  }
+
+  deleteMCPLink(mcpLink: MCPLink) {
+    const index = this.selectedList.indexOf(mcpLink);
+		if (index >= 0) {
+			this.selectedList.splice(index, 1);
+		}
+  }
+
+  editMCPLink(mcpLink: MCPLink) {
+		if (mcpLink != null) {
+      this.randomId = mcpLink.id;
+      this.mcp.setValue({
+        id: mcpLink.id,
+        mineInformationId: mcpLink.mineInformationId,
+        siteInformationId: mcpLink.siteInformationId,
+        mcpBoardId: mcpLink.mcpBoardId,
+        panel: mcpLink.panel,
+        functionalLocationId: mcpLink.functionalLocationId
+      });
+		}
+  }
+
+  addMCPLink() {
+    if (this.mcp.get('mineInformationId').value == null
+    || this.mcp.get('siteInformationId').value == null
+    || this.mcp.get('mcpBoardId').value == null
+    || this.mcp.get('panel').value == null
+    || this.mcp.get('functionalLocationId').value == null
+    ) {
+      return;
+    }
+    else {
+      let selectedMineInformation = this.mineInformationList?.find(x => x.id === this.mcp.get('mineInformationId').value);
+      let selectedSiteInformation = this.siteInformationList?.find(x => x.id === this.mcp.get('siteInformationId').value);
+      let selectedMCPBoard = this.mcpBoardList?.find(x => x.id === this.mcp.get('mcpBoardId').value);
+      let panel = this.mcp.get('panel').value;
+      let selectedFunctionalLocation = this.functionalLocationList?.find(x => x.id === this.mcp.get('functionalLocationId').value);
+
+      if(this.randomId != undefined)
+      {
+        let editedItem = this.selectedList?.find(x => x.id === this.randomId);
+        editedItem.mineInformationId = selectedMineInformation.id;
+        editedItem.mineInformationName = selectedMineInformation.name;
+        editedItem.siteInformationId = selectedSiteInformation.id;
+        editedItem.siteInformationName = selectedSiteInformation.name;
+        editedItem.mcpBoardId = selectedMCPBoard.id;
+        editedItem.mcpBoardName = selectedMCPBoard.name;
+        editedItem.functionalLocationId = selectedFunctionalLocation.id;
+        editedItem.functionalLocationName = selectedFunctionalLocation.name;
+        editedItem.panel = panel;
+        editedItem.link = selectedMineInformation.name + " " + selectedSiteInformation.name + " " + selectedMCPBoard.name + " " + panel + " " + selectedFunctionalLocation.name;
+      }
+      else
+      {
+      let existItem = this.selectedList.filter(item => item.mineInformationId === this.mcp.get('mineInformationId').value
+      && item.siteInformationId === this.mcp.get('siteInformationId').value
+      && item.mcpBoardId === this.mcp.get('mcpBoardId').value
+      && item.panel === this.mcp.get('panel').value
+      && item.functionalLocationId === this.mcp.get('functionalLocationId').value
+      );
+
+      if (existItem.length > 0) {
+          return this.toastr.info("Unsuccessful attempt! Selected item already added");
+      }
+
+      let mcpLink = new MCPLink();
+      mcpLink.id = (Math.random() * 1000).toString();
+      mcpLink.mineInformationId = selectedMineInformation.id;
+      mcpLink.mineInformationName = selectedMineInformation.name;
+      mcpLink.siteInformationId = selectedSiteInformation.id;
+      mcpLink.siteInformationName = selectedSiteInformation.name;
+      mcpLink.mcpBoardId = selectedMCPBoard.id;
+      mcpLink.mcpBoardName = selectedMCPBoard.name;
+      mcpLink.functionalLocationId = selectedFunctionalLocation.id;
+      mcpLink.functionalLocationName = selectedFunctionalLocation.name;
+      mcpLink.panel = panel;
+      mcpLink.link = selectedMineInformation.name + " " + selectedSiteInformation.name + " " + selectedMCPBoard.name + " " + panel + " " + selectedFunctionalLocation.name; 
+
+      this.selectedList.push(mcpLink);
+    }
+  }
   }
 
 }
